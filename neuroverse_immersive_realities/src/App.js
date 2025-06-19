@@ -15,6 +15,85 @@ import {
   runChain
 } from './langchainOrchestrator';
 
+import Dashboard from "./Dashboard";
+
+// --- Timeline state for Dashboard ---
+function useDashboardTimeline(maxSteps) {
+  const [step, setStep] = useState(0);
+  const next = () => setStep(s => Math.min(s + 1, maxSteps - 1));
+  const prev = () => setStep(s => Math.max(s - 1, 0));
+  const set = (v) => setStep(Math.min(Math.max(0, v), maxSteps - 1));
+  return [step, set, next, prev];
+}
+
+// Sample/mock simulation timeline metrics for the dashboard
+const mockDashboardData = [
+  {
+    label: "Genesis",
+    emotional: 72,
+    career: 55,
+    financial: 40,
+    relationships: 82,
+  },
+  {
+    label: "Challenge",
+    emotional: 65,
+    career: 58,
+    financial: 43,
+    relationships: 79
+  },
+  {
+    label: "Breakthrough",
+    emotional: 80,
+    career: 78,
+    financial: 61,
+    relationships: 88
+  },
+  {
+    label: "Revelation",
+    emotional: 90,
+    career: 83,
+    financial: 75,
+    relationships: 94
+  },
+];
+
+// Timeline step state & controls for Dashboard charts
+function DashboardControlPanel() {
+  const [step, setStep, next, prev] = useDashboardTimeline(mockDashboardData.length);
+  // Place any additional interactive controls here if desired
+  return null; // Already integrated as navigators below; structure here for future extension
+}
+
+// Timeline navigator UI for dashboard metrics (step switching)
+function DashboardTimelineNavigator({ current, max, setTimelineStep }) {
+  return (
+    <div style={{ margin: "6px 0" }}>
+      <button
+        style={{
+          background: "var(--nv-accent)", color: "#fff", border: "none",
+          borderRadius: 12, padding: "6px 15px", marginRight: 6, cursor: "pointer",
+          fontWeight: 700, boxShadow: "0 0 7px #ff00ff77", opacity: current > 0 ? 1 : 0.5
+        }}
+        disabled={current === 0}
+        onClick={() => setTimelineStep(curr => Math.max(0, curr - 1))}
+      >⏪ Prev</button>
+      <span style={{ color: "var(--nv-accent)", fontWeight: 600, margin: "0 9px", fontSize: "1.06em" }}>
+        Step {current + 1} / {max + 1}
+      </span>
+      <button
+        style={{
+          background: "var(--nv-primary)", color: "#12122a", border: "none",
+          borderRadius: 12, padding: "6px 15px", marginLeft: 6, cursor: "pointer",
+          fontWeight: 700, boxShadow: "0 0 7px #0fffff77", opacity: current < max ? 1 : 0.5
+        }}
+        disabled={current === max}
+        onClick={() => setTimelineStep(curr => Math.min(max, curr + 1))}
+      >Next ⏩</button>
+    </div>
+  );
+}
+
 // PUBLIC_INTERFACE
 function Starfield({ numStars = 180 }) {
   // Starfield animation for background effect.
@@ -634,6 +713,9 @@ function App() {
     setLoading(false);
   }
 
+  // -- Dashboard timeline state for simulation (shared with Dashboard, TimelineNavigator)
+  const [dashboardTimelineStep, setDashboardTimelineStep] = useState(0);
+
   // -- Render --
   return (
     <div className="nv-app-root">
@@ -695,9 +777,22 @@ function App() {
                 <NarrativeTimeline narrativeSteps={narrative} />
                 <MemoryPoem text={poem} />
                 <RewindReroll onRewind={handleRewind} onReroll={handleReroll} disabled={loading} />
+                <DashboardControlPanel />
               </section>
               <section className="nv-sim-center">
-                <div className="nv-sim-section-label">VISUALS</div>
+                <div className="nv-sim-section-label">TIMELINE METRICS</div>
+                <Dashboard
+                  data={mockDashboardData}
+                  currentStep={dashboardTimelineStep}
+                />
+                <div style={{ textAlign: 'center', color: 'var(--text-secondary)', marginTop: 6, marginBottom: 0, fontSize: "0.97rem" }}>
+                  <DashboardTimelineNavigator
+                    current={dashboardTimelineStep}
+                    max={mockDashboardData.length - 1}
+                    setTimelineStep={setDashboardTimelineStep}
+                  />
+                </div>
+                <div className="nv-sim-section-label" style={{ marginTop: 18 }}>VISUALS</div>
                 <VisualRenderPanel visuals={visuals} />
               </section>
               <section className="nv-sim-right">
