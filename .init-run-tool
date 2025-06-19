@@ -1,0 +1,4 @@
+{
+    "command": "PORT=<port> BROWSER=none npm start",
+    "working_directory": "/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities"
+}
