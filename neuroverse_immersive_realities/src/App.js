@@ -388,13 +388,58 @@ async function fetchNarrative(prompt, metrics) {
   ];
 }
 
-// PUBLIC_INTERFACE
+/**
+ * PUBLIC_INTERFACE
+ * Calls a Stable Diffusion API to generate images based on the user's scenario and psychological metrics/personality profile.
+ * Replace the dummy STABLE_DIFFUSION_API_KEY and API endpoint (apiUrl) for real usage or proxy via secure backend.
+ * The function returns an array of URLs (either direct images or data URLs, depending on backend).
+ */
+ // PUBLIC_INTERFACE
 async function fetchVisuals(prompt, metrics) {
-  // Placeholder for Stable Diffusion-generated images
-  return [
-    "https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=400&q=80",
-    "https://images.unsplash.com/photo-1462331940025-496dfbfc7564?auto=format&fit=crop&w=400&q=80"
-  ];
+  const profileSummary = Object.entries(metrics)
+    .map(([trait, val]) => `${trait}: ${val}/100`)
+    .join(', ');
+  // Example: payload for text2img endpoint (common for SD APIs)
+  const payload = {
+    prompt: `Cinematic, hi-res, atmospheric illustration of: ${prompt}. Psychological traits: ${profileSummary}. Science fiction, alternate universe, evocative realism, concept art.`,
+    num_images: 2,
+    steps: 23,
+    guidance_scale: 7.5,
+    width: 512,
+    height: 384
+  };
+
+  // DUMMY API KEY: In real code, NEVER commit real API key, use secure backend proxy.
+  const STABLE_DIFFUSION_API_KEY = 'YOUR_STABLE_DIFFUSION_API_KEY_HERE';
+  // You may use a proxy or 3rd party SD API, e.g., replicate.com, stability.ai, etc.
+  // For demo, this endpoint is not real and will return fallback visuals.
+  const apiUrl = 'https://api.stable-diffusion-api-example.com/v1/generate'; // <-- Needs real or proxied endpoint
+
+  try {
+    const response = await fetch(apiUrl, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${STABLE_DIFFUSION_API_KEY}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(payload)
+    });
+    if (!response.ok) throw new Error("Stable Diffusion API error: " + response.status);
+    const data = await response.json();
+
+    // Common API shape: { images: ['https://...jpg', ...] } or { images: ['data:image/png;base64,...', ...] }
+    if (Array.isArray(data.images)) {
+      return data.images;
+    }
+    // fallback if expected field not found
+    return [];
+  } catch (err) {
+    // FALLBACK: Return unsplash-style images if SD integration fails or is unreachable
+    return [
+      "https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=400&q=80",
+      "https://images.unsplash.com/photo-1462331940025-496dfbfc7564?auto=format&fit=crop&w=400&q=80"
+    ];
+  }
 }
 
 // PUBLIC_INTERFACE
