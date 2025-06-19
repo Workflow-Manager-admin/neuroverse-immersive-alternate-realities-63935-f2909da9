@@ -7,7 +7,7 @@ import {
   loadAchievements
 } from "./multiverseUtils";
 import "./App.css";
-
+import HomePage from "./HomePage";
 // --- FONT IMPORTS (Orbitron, Space Mono, Inter, Lato) ---
 const fontLink = document.createElement("link");
 fontLink.rel = "stylesheet";
@@ -178,51 +178,15 @@ function MirrorVerseApp() {
       {/* Cinematic Page Transitions */}
       <FramerLikeTransition active={page==="Home"}>
         {page==="Home" && (
-          <main className="nv-main-lp">
-            <section className="nv-landing-content" style={{fontFamily:"Orbitron,Inter,sans-serif"}}>
-              <div className="nv-landing-header">
-                <h1 className="nv-title-glow">MirrorVerse</h1>
-                <div className="nv-subtitle" style={{maxWidth:340,margin:"auto"}}>
-                  Simulate lifepaths in parallel worlds. Begin your multiverse journey below.
-                </div>
-              </div>
-              <form
-                style={{marginTop:8,marginBottom:0,display:"flex",flexDirection:"column",alignItems:"center",gap:18}}
-                onSubmit={e=>{e.preventDefault();setPage("PathSelector");}}
-              >
-                <input
-                  className="prompt-box"
-                  style={{maxWidth:354}}
-                  value={scenario}
-                  placeholder="Describe your alternate scenario…"
-                  maxLength={300}
-                  onChange={e=>setScenario(e.target.value)}
-                />
-                <div>
-                  <label style={{color:"var(--nv-primary)",fontWeight:700,marginRight:9}}>Personality:</label>
-                  <select
-                    value={selectedPersonality}
-                    style={{
-                      fontFamily:"Orbitron,Inter,monospace",
-                      background:"#181a36",color:"#fff",borderRadius:9,padding:"5px 21px"
-                    }}
-                    onChange={e=>setSelectedPersonality(e.target.value)}
-                  >
-                    <option value="INFP">INFP</option>
-                    <option value="INTJ">INTJ</option>
-                    <option value="ESFP">ESFP</option>
-                    <option value="ISTJ">ISTJ</option>
-                  </select>
-                </div>
-                <button className="btn-generate" type="submit" disabled={!scenario.trim()}>
-                  Begin Simulation
-                </button>
-              </form>
-              <div className="nv-footer-note" style={{marginTop:22}}>
-                Your decisions ripple across infinite realities.
-              </div>
-            </section>
-          </main>
+          <HomePage
+            onBeginSimulation={formData => {
+              // Save the scenario and (optionally) further data for future integration.
+              setScenario(formData.whatIf || "");
+              setSelectedPersonality(formData.mbti || formData.enneagram || "INFP");
+              // ...store other details for integration as needed...
+              setPage("PathSelector");
+            }}
+          />
         )}
       </FramerLikeTransition>
       <FramerLikeTransition active={page==="PathSelector"}>
