@@ -693,13 +693,88 @@ function App() {
     handleTransition("simulation");
   }
 
-  // MirrorChat send
-  function handleChatSend(text) {
+  /**
+   * MirrorChat send/receive logic.
+   * Integrates OpenAI GPT-4o API for live AI chat replies.
+   */
+
+  // PUBLIC_INTERFACE
+  async function fetchAIChatMessage(message, history = []) {
+    /**
+     * Send user message (and chat history) to OpenAI's Chat Completion API (GPT-4o)
+     * and return the AI's reply.
+     * RECOMMEND: Proxy your API key securely in prod.
+     *
+     * @param {string} message - user input.
+     * @param {Array} history - optional prior messages [{role, text}], to provide better context/persona.
+     * @returns {string} AI response text.
+     */
+    // TODO: Replace with your actual API KEY – never commit secret!
+    const OPENAI_API_KEY = 'YOUR_OPENAI_API_KEY_HERE'; // <-- PLACEHOLDER ONLY
+
+    const messages = [
+      {
+        role: "system",
+        content: "You are the 'MirrorChat' AI: act as an alternate version of the user's self, offering supportive, thoughtful, sometimes surprising but always friendly responses. Keep responses concise, first-person, and immersive—as if the AI is a sci-fi alternate self reflecting from another universe."
+      },
+      // Use previous exchanges for chat memory if available:
+      ...history
+        .filter(msg => msg.role === "user" || msg.role === "ai")
+        .map(msg => ({
+          role: msg.role === "user" ? "user" : "assistant",
+          content: msg.text
+        })),
+      {
+        role: "user",
+        content: message
+      }
+    ];
+
+    try {
+      const response = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${OPENAI_API_KEY}`, // PLACEHOLDER – insert actual key securely!
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          model: "gpt-4o",
+          messages,
+          max_tokens: 180,
+          temperature: 0.85
+        })
+      });
+      if (!response.ok) {
+        throw new Error(`OpenAI error: ${response.status}`);
+      }
+      const data = await response.json();
+      // Extract and return text:
+      return data?.choices?.[0]?.message?.content?.trim() || "[No AI reply]";
+    } catch (err) {
+      // On error, return a friendly fallback message.
+      return "Sorry, I couldn't reflect back just now. (AI unreachable)";
+    }
+  }
+
+  // MirrorChat send with GPT-4o integration
+  async function handleChatSend(text) {
+    // Add user message immediately
     setMirrorChat(msgs => [
       ...msgs,
-      { role: "user", text },
-      { role: "ai", text: "🤖 (Alternate you): " + text.split('').reverse().join('') }
+      { role: "user", text }
     ]);
+    // Get current chat history (excluding possible optimistic AI message)
+    const previous = mirrorChat.concat({ role: "user", text });
+    // Append placeholder (typing...) if you wish
+
+    // Fetch AI reply, then update state
+    const aiReply = await fetchAIChatMessage(text, previous);
+    setMirrorChat(msgs =>
+      // Only append AI reply if last message is user's message
+      (msgs.length && msgs[msgs.length - 1].role === "user")
+        ? [...msgs, { role: "ai", text: aiReply }]
+        : msgs
+    );
   }
 
   // Rewind resets
