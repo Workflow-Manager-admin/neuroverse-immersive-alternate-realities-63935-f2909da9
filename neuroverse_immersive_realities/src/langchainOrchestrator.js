@@ -53,7 +53,7 @@ function buildSimulationChain(api) {
   return {
     gather: new ChainStep({
       type: STEP_TYPES.INPUT,
-      async handler(ctx) {
+      handler: async (ctx) => {
         ctx.log = (ctx.log || []).concat(
           "Gathered input and psychological profile."
         );
@@ -62,7 +62,7 @@ function buildSimulationChain(api) {
     }),
     analyze: new ChainStep({
       type: STEP_TYPES.PROFILE_ANALYSIS,
-      async handler(ctx) {
+      handler: async (ctx) => {
         ctx.profileSummary = `MBTI: ${ctx.mbti}, Big5: ${Object.entries(ctx.big5)
           .map(([k, v]) => `${k}:${v}`)
           .join(", ")}`;
@@ -74,7 +74,7 @@ function buildSimulationChain(api) {
     }),
     narrative: new ChainStep({
       type: STEP_TYPES.API_GPT,
-      async handler: async (ctx) => {
+      handler: async (ctx) => {
         ctx.aiNarrative = await api.gptNarrative(
           ctx.prompt,
           ctx.profileSummary,
@@ -86,7 +86,7 @@ function buildSimulationChain(api) {
     }),
     visual: new ChainStep({
       type: STEP_TYPES.API_SD,
-      async handler: async (ctx) => {
+      handler: async (ctx) => {
         ctx.visuals = await api.sdVisuals(
           ctx.prompt,
           ctx.profileSummary,
@@ -98,7 +98,7 @@ function buildSimulationChain(api) {
     }),
     finalize: new ChainStep({
       type: STEP_TYPES.FINALIZE,
-      async handler(ctx) {
+      handler: async (ctx) => {
         ctx.log = (ctx.log || []).concat("Simulation finalized.");
       },
       next: null
