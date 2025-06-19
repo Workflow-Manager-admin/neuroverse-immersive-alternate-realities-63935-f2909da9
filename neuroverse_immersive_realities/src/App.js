@@ -9,6 +9,12 @@ import {
   PSY_PROFILE_KEY
 } from './PsychologicalProfileForm';
 
+// ---- Integration: LangChain-like Orchestrator ---- //
+import {
+  buildSimulationChain,
+  runChain
+} from './langchainOrchestrator';
+
 // PUBLIC_INTERFACE
 function Starfield({ numStars = 180 }) {
   // Starfield animation for background effect.
@@ -528,27 +534,41 @@ function App() {
     setVisuals([]);
     setPoem('');
     setProfileSummary('');
-    // Combine all profile data for narrative/visuals context
-    const personalitySummary = profileObj
-      ? `MBTI: ${profileObj.mbtiStr}, Big5: ${Object.entries(profileObj.big5).map(([k, v]) => `${k}: ${v}/100`).join(', ')}`
-      : "";
-    const metricsCombined = {
-      ...metrics,
-      ...((profileObj && profileObj.big5) ? profileObj.big5 : {}),
-      mbti: (profileObj && profileObj.mbtiStr) || "",
+    // Prepare orchestrator/chain context
+    let ctxInit = {
+      prompt,
+      profile: profileObj,
+      mbti: profileObj?.mbtiStr,
+      big5: profileObj?.big5,
+      metrics
     };
-
-    // parallel fetch...
-    const [narr, vis] = await Promise.all([
-      fetchNarrative(`${prompt}\nPersonality Profile: ${personalitySummary}`, metricsCombined),
-      fetchVisuals(`${prompt}\nPersonality Profile: ${personalitySummary}`, metricsCombined)
-    ]);
-    setNarrative(narr);
-    setVisuals(vis);
-    setProfileSummary(profileObj
-      ? analyzeProfile(profileObj.mbtiStr, profileObj.big5)
-      : "No profile set");
-    setPoem(await fetchPoem(narr));
+    // Compose minimal API adapter for the chain (wraps existing functions)
+    const api = {
+      gptNarrative: async (pmt, profileSummary, met) =>
+        fetchNarrative(`${pmt}\nPersonality Profile: ${profileSummary || ''}`, {
+          ...met,
+          ...((profileObj && profileObj.big5) ? profileObj.big5 : {}),
+          mbti: (profileObj && profileObj.mbtiStr) || ""
+        }),
+      sdVisuals: async (pmt, profileSummary, met) =>
+        fetchVisuals(`${pmt}\nPersonality Profile: ${profileSummary || ''}`, {
+          ...met,
+          ...((profileObj && profileObj.big5) ? profileObj.big5 : {}),
+          mbti: (profileObj && profileObj.mbtiStr) || ""
+        }),
+    };
+    // Build the simulation logic chain
+    const chain = buildSimulationChain(api);
+    // Run orchestrated multi-step logic flow
+    const resultCtx = await runChain(chain, "gather", ctxInit);
+    setNarrative(resultCtx.aiNarrative);
+    setVisuals(resultCtx.visuals);
+    setProfileSummary(
+      profileObj
+        ? analyzeProfile(profileObj.mbtiStr, profileObj.big5)
+        : "No profile set"
+    );
+    setPoem(await fetchPoem(resultCtx.aiNarrative));
     setLoading(false);
     handleTransition("simulation");
   }
@@ -579,24 +599,38 @@ function App() {
     setVisuals([]);
     setPoem('');
     setProfileSummary('');
-    const personalitySummary = profileObj
-      ? `MBTI: ${profileObj.mbtiStr}, Big5: ${Object.entries(profileObj.big5).map(([k, v]) => `${k}: ${v}/100`).join(', ')}`
-      : "";
-    const metricsCombined = {
-      ...metrics,
-      ...((profileObj && profileObj.big5) ? profileObj.big5 : {}),
-      mbti: (profileObj && profileObj.mbtiStr) || "",
+    // Use orchestrator chain to rerun simulation flow with existing prompt/profile
+    let ctxInit = {
+      prompt,
+      profile: profileObj,
+      mbti: profileObj?.mbtiStr,
+      big5: profileObj?.big5,
+      metrics
     };
-    const [narr, vis] = await Promise.all([
-      fetchNarrative(`${prompt}\nPersonality Profile: ${personalitySummary}`, metricsCombined),
-      fetchVisuals(`${prompt}\nPersonality Profile: ${personalitySummary}`, metricsCombined)
-    ]);
-    setNarrative(narr);
-    setVisuals(vis);
-    setProfileSummary(profileObj
-      ? analyzeProfile(profileObj.mbtiStr, profileObj.big5)
-      : "No profile set");
-    setPoem(await fetchPoem(narr));
+    const api = {
+      gptNarrative: async (pmt, profileSummary, met) =>
+        fetchNarrative(`${pmt}\nPersonality Profile: ${profileSummary || ''}`, {
+          ...met,
+          ...((profileObj && profileObj.big5) ? profileObj.big5 : {}),
+          mbti: (profileObj && profileObj.mbtiStr) || ""
+        }),
+      sdVisuals: async (pmt, profileSummary, met) =>
+        fetchVisuals(`${pmt}\nPersonality Profile: ${profileSummary || ''}`, {
+          ...met,
+          ...((profileObj && profileObj.big5) ? profileObj.big5 : {}),
+          mbti: (profileObj && profileObj.mbtiStr) || ""
+        }),
+    };
+    const chain = buildSimulationChain(api);
+    const resultCtx = await runChain(chain, "gather", ctxInit);
+    setNarrative(resultCtx.aiNarrative);
+    setVisuals(resultCtx.visuals);
+    setProfileSummary(
+      profileObj
+        ? analyzeProfile(profileObj.mbtiStr, profileObj.big5)
+        : "No profile set"
+    );
+    setPoem(await fetchPoem(resultCtx.aiNarrative));
     setLoading(false);
   }
 

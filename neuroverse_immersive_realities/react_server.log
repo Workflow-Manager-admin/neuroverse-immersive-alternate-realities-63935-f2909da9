@@ -7,51 +7,390 @@
 <i> [webpack-dev-server] On Your Network (IPv4): http://172.17.0.2:3000/
 <i> [webpack-dev-server] Content not from webpack is served from './public' directory
 Injecting EditorRootWrapper import: ../.ve/EditorRootWrapper
-asset bundle.js 1.43 MiB [emitted] (name: main)
+asset bundle.js 1.45 MiB [emitted] (name: main)
 asset index.html 1.98 KiB [emitted]
 runtime modules 27.5 KiB 14 modules
 modules by path ./node_modules/ 1.24 MiB 31 modules
-modules by path ./src/ 46.6 KiB
-  modules by path ./src/*.css 18.4 KiB 4 modules
-  modules by path ./src/*.js 28.2 KiB
+modules by path ./src/ 59.6 KiB
+  modules by path ./src/*.css 19.1 KiB 4 modules
+  modules by path ./src/*.js 40.5 KiB
     ./src/index.js 530 bytes [built] [code generated]
-    ./src/App.js 27.7 KiB [built] [code generated]
+    + 2 modules
 modules by path ./.ve/ 15.1 KiB
-  modules by path ./.ve/*.js 10.6 KiB 2 modules
+  modules by path ./.ve/*.js 10.6 KiB
+    ./.ve/EditorRootWrapper.js 2.68 KiB [built] [code generated]
+    ./.ve/SidePanel.js 7.93 KiB [built] [code generated]
   modules by path ./.ve/*.css 2.93 KiB
     ./.ve/EditorOverlay.css 2.25 KiB [built] [code generated]
     ./node_modules/css-loader/dist/cjs.js!./.ve/EditorOverlay.css 697 bytes [built] [code generated]
   ./.ve/EditorOverlay.jsx 1.58 KiB [built] [code generated]
-webpack 5.99.9 compiled successfully in 1405 ms
+webpack 5.99.9 compiled successfully in 1399 ms
 assets by status 1.98 KiB [cached] 1 asset
-assets by path *.js 1.45 MiB
-  asset bundle.js 1.43 MiB [emitted] (name: main)
-  asset main.71ab174f11a334b50e62.hot-update.js 16.5 KiB [emitted] [immutable] [hmr] (name: main)
-asset main.71ab174f11a334b50e62.hot-update.json 28 bytes [emitted] [immutable] [hmr]
-Entrypoint main 1.45 MiB = bundle.js 1.43 MiB main.71ab174f11a334b50e62.hot-update.js 16.5 KiB
-cached modules 1.29 MiB [cached] 41 modules
-runtime modules 27.5 KiB 14 modules
-./node_modules/css-loader/dist/cjs.js!./src/App.css 13.8 KiB [built] [code generated]
-webpack 5.99.9 compiled successfully in 85 ms
-assets by status 1.98 KiB [cached] 1 asset
-assets by path *.js 1.49 MiB
-  asset bundle.js 1.45 MiB [emitted] (name: main)
-  asset main.f96d336029d23a169f78.hot-update.js 49.3 KiB [emitted] [immutable] [hmr] (name: main)
-asset main.f96d336029d23a169f78.hot-update.json 28 bytes [emitted] [immutable] [hmr]
-Entrypoint main 1.49 MiB = bundle.js 1.45 MiB main.f96d336029d23a169f78.hot-update.js 49.3 KiB
-cached modules 1.27 MiB [cached] 41 modules
-runtime modules 27.5 KiB 14 modules
-javascript modules 37.7 KiB
-  ./src/App.js 27.9 KiB [built] [code generated]
-  ./src/PsychologicalProfileForm.js 9.84 KiB [built] [code generated]
-webpack 5.99.9 compiled successfully in 244 ms
-assets by status 1.98 KiB [cached] 1 asset
-assets by path *.js 1.49 MiB
-  asset bundle.js 1.45 MiB [emitted] (name: main)
-  asset main.ffa27d213e4aa1c0f448.hot-update.js 39.4 KiB [emitted] [immutable] [hmr] (name: main)
-asset main.ffa27d213e4aa1c0f448.hot-update.json 28 bytes [emitted] [immutable] [hmr]
-Entrypoint main 1.49 MiB = bundle.js 1.45 MiB main.ffa27d213e4aa1c0f448.hot-update.js 39.4 KiB
+assets by path *.js 1.51 MiB
+  asset bundle.js 1.46 MiB [emitted] (name: main)
+  asset main.e49f44a5e46f780fc940.hot-update.js 51.2 KiB [emitted] [immutable] [hmr] (name: main)
+asset main.e49f44a5e46f780fc940.hot-update.json 28 bytes [emitted] [immutable] [hmr]
+Entrypoint main 1.51 MiB = bundle.js 1.46 MiB main.e49f44a5e46f780fc940.hot-update.js 51.2 KiB
 cached modules 1.28 MiB [cached] 42 modules
 runtime modules 27.5 KiB 14 modules
-./src/App.js 30.2 KiB [built] [code generated]
-webpack 5.99.9 compiled successfully in 120 ms
+javascript modules 30.3 KiB
+  ./src/App.js 30.3 KiB [built] [code generated]
+  ./src/langchainOrchestrator.js 39 bytes [built] [code generated] [1 error]
+
+ERROR in ./src/langchainOrchestrator.js
+Module build failed (from ./node_modules/babel-loader/lib/index.js):
+SyntaxError: /home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/src/langchainOrchestrator.js: Unexpected token, expected "(" (115:19)
+
+  113 |     narrative: new ChainStep({
+  114 |       type: STEP_TYPES.API_GPT,
+> 115 |       async handler: async (ctx) => {
+      |                    ^
+  116 |         ctx.aiNarrative = await api.gptNarrative(
+  117 |           ctx.prompt,
+  118 |           ctx.profileSummary,
+    at constructor (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:363:19)
+    at JSXParserMixin.raise (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:6609:19)
+    at JSXParserMixin.unexpected (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:6629:16)
+    at JSXParserMixin.expect (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:6910:12)
+    at JSXParserMixin.parseFunctionParams (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:13374:10)
+    at JSXParserMixin.parseMethod (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:11978:10)
+    at JSXParserMixin.parseObjectMethod (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:11879:19)
+    at JSXParserMixin.parseObjPropValue (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:11913:23)
+    at JSXParserMixin.parsePropertyDefinition (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:11850:17)
+    at JSXParserMixin.parseObjectLike (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:11765:21)
+    at JSXParserMixin.parseExprAtom (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:11270:23)
+    at JSXParserMixin.parseExprAtom (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:4776:20)
+    at JSXParserMixin.parseExprSubscripts (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:11012:23)
+    at JSXParserMixin.parseUpdate (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10997:21)
+    at JSXParserMixin.parseMaybeUnary (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10977:23)
+    at JSXParserMixin.parseMaybeUnaryOrPrivate (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10830:61)
+    at JSXParserMixin.parseExprOps (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10835:23)
+    at JSXParserMixin.parseMaybeConditional (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10812:23)
+    at JSXParserMixin.parseMaybeAssign (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10765:21)
+    at /home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10734:39
+    at JSXParserMixin.allowInAnd (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:12361:12)
+    at JSXParserMixin.parseMaybeAssignAllowIn (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10734:17)
+    at JSXParserMixin.parseExprListItem (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:12110:18)
+    at JSXParserMixin.parseExprList (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:12085:22)
+    at JSXParserMixin.parseNew (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:11680:25)
+    at JSXParserMixin.parseNewOrNewTarget (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:11675:17)
+    at JSXParserMixin.parseExprAtom (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:11279:21)
+    at JSXParserMixin.parseExprAtom (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:4776:20)
+    at JSXParserMixin.parseExprSubscripts (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:11012:23)
+    at JSXParserMixin.parseUpdate (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10997:21)
+    at JSXParserMixin.parseMaybeUnary (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10977:23)
+    at JSXParserMixin.parseMaybeUnaryOrPrivate (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10830:61)
+    at JSXParserMixin.parseExprOps (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10835:23)
+    at JSXParserMixin.parseMaybeConditional (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10812:23)
+    at JSXParserMixin.parseMaybeAssign (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10765:21)
+    at /home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10734:39
+    at JSXParserMixin.allowInAnd (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:12361:12)
+    at JSXParserMixin.parseMaybeAssignAllowIn (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10734:17)
+    at JSXParserMixin.parseObjectProperty (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:11885:83)
+    at JSXParserMixin.parseObjPropValue (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:11913:100)
+    at JSXParserMixin.parsePropertyDefinition (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:11850:17)
+    at JSXParserMixin.parseObjectLike (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:11765:21)
+    at JSXParserMixin.parseExprAtom (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:11270:23)
+    at JSXParserMixin.parseExprAtom (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:4776:20)
+    at JSXParserMixin.parseExprSubscripts (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:11012:23)
+    at JSXParserMixin.parseUpdate (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10997:21)
+    at JSXParserMixin.parseMaybeUnary (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10977:23)
+    at JSXParserMixin.parseMaybeUnaryOrPrivate (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10830:61)
+    at JSXParserMixin.parseExprOps (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10835:23)
+    at JSXParserMixin.parseMaybeConditional (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10812:23)
+ @ ./src/App.js 7:0-73
+ @ ./src/index.js 5:0-24 11:32-35
+
+webpack 5.99.9 compiled with 1 error in 267 ms
+assets by status 1.98 KiB [cached] 1 asset
+assets by path *.js 1.5 MiB
+  asset bundle.js 1.46 MiB [emitted] (name: main)
+  asset main.9a51ce4faa28ac6b7b16.hot-update.js 40.3 KiB [emitted] [immutable] [hmr] (name: main)
+asset main.9a51ce4faa28ac6b7b16.hot-update.json 28 bytes [emitted] [immutable] [hmr]
+Entrypoint main 1.5 MiB = bundle.js 1.46 MiB main.9a51ce4faa28ac6b7b16.hot-update.js 40.3 KiB
+cached modules 1.28 MiB [cached] 42 modules
+runtime modules 27.5 KiB 14 modules
+javascript modules 30.7 KiB
+  ./src/App.js 30.7 KiB [built] [code generated]
+  ./src/langchainOrchestrator.js 39 bytes [built] [1 error]
+
+ERROR in ./src/langchainOrchestrator.js
+Module build failed (from ./node_modules/babel-loader/lib/index.js):
+SyntaxError: /home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/src/langchainOrchestrator.js: Unexpected token, expected "(" (115:19)
+
+  113 |     narrative: new ChainStep({
+  114 |       type: STEP_TYPES.API_GPT,
+> 115 |       async handler: async (ctx) => {
+      |                    ^
+  116 |         ctx.aiNarrative = await api.gptNarrative(
+  117 |           ctx.prompt,
+  118 |           ctx.profileSummary,
+    at constructor (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:363:19)
+    at JSXParserMixin.raise (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:6609:19)
+    at JSXParserMixin.unexpected (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:6629:16)
+    at JSXParserMixin.expect (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:6910:12)
+    at JSXParserMixin.parseFunctionParams (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:13374:10)
+    at JSXParserMixin.parseMethod (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:11978:10)
+    at JSXParserMixin.parseObjectMethod (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:11879:19)
+    at JSXParserMixin.parseObjPropValue (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:11913:23)
+    at JSXParserMixin.parsePropertyDefinition (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:11850:17)
+    at JSXParserMixin.parseObjectLike (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:11765:21)
+    at JSXParserMixin.parseExprAtom (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:11270:23)
+    at JSXParserMixin.parseExprAtom (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:4776:20)
+    at JSXParserMixin.parseExprSubscripts (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:11012:23)
+    at JSXParserMixin.parseUpdate (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10997:21)
+    at JSXParserMixin.parseMaybeUnary (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10977:23)
+    at JSXParserMixin.parseMaybeUnaryOrPrivate (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10830:61)
+    at JSXParserMixin.parseExprOps (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10835:23)
+    at JSXParserMixin.parseMaybeConditional (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10812:23)
+    at JSXParserMixin.parseMaybeAssign (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10765:21)
+    at /home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10734:39
+    at JSXParserMixin.allowInAnd (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:12361:12)
+    at JSXParserMixin.parseMaybeAssignAllowIn (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10734:17)
+    at JSXParserMixin.parseExprListItem (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:12110:18)
+    at JSXParserMixin.parseExprList (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:12085:22)
+    at JSXParserMixin.parseNew (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:11680:25)
+    at JSXParserMixin.parseNewOrNewTarget (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:11675:17)
+    at JSXParserMixin.parseExprAtom (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:11279:21)
+    at JSXParserMixin.parseExprAtom (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:4776:20)
+    at JSXParserMixin.parseExprSubscripts (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:11012:23)
+    at JSXParserMixin.parseUpdate (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10997:21)
+    at JSXParserMixin.parseMaybeUnary (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10977:23)
+    at JSXParserMixin.parseMaybeUnaryOrPrivate (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10830:61)
+    at JSXParserMixin.parseExprOps (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10835:23)
+    at JSXParserMixin.parseMaybeConditional (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10812:23)
+    at JSXParserMixin.parseMaybeAssign (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10765:21)
+    at /home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10734:39
+    at JSXParserMixin.allowInAnd (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:12361:12)
+    at JSXParserMixin.parseMaybeAssignAllowIn (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10734:17)
+    at JSXParserMixin.parseObjectProperty (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:11885:83)
+    at JSXParserMixin.parseObjPropValue (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:11913:100)
+    at JSXParserMixin.parsePropertyDefinition (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:11850:17)
+    at JSXParserMixin.parseObjectLike (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:11765:21)
+    at JSXParserMixin.parseExprAtom (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:11270:23)
+    at JSXParserMixin.parseExprAtom (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:4776:20)
+    at JSXParserMixin.parseExprSubscripts (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:11012:23)
+    at JSXParserMixin.parseUpdate (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10997:21)
+    at JSXParserMixin.parseMaybeUnary (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10977:23)
+    at JSXParserMixin.parseMaybeUnaryOrPrivate (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10830:61)
+    at JSXParserMixin.parseExprOps (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10835:23)
+    at JSXParserMixin.parseMaybeConditional (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10812:23)
+ @ ./src/App.js 7:0-73 711:18-38 713:28-36
+ @ ./src/index.js 5:0-24 11:32-35
+
+webpack 5.99.9 compiled with 1 error in 165 ms
+assets by status 1.98 KiB [cached] 1 asset
+assets by path *.js 1.5 MiB
+  asset bundle.js 1.46 MiB [emitted] (name: main)
+  asset main.617a2c4eeb9e60cc9d62.hot-update.js 40.8 KiB [emitted] [immutable] [hmr] (name: main)
+asset main.617a2c4eeb9e60cc9d62.hot-update.json 28 bytes [emitted] [immutable] [hmr]
+Entrypoint main 1.5 MiB = bundle.js 1.46 MiB main.617a2c4eeb9e60cc9d62.hot-update.js 40.8 KiB
+cached modules 1.28 MiB [cached] 42 modules
+runtime modules 27.5 KiB 14 modules
+javascript modules 31.1 KiB
+  ./src/App.js 31 KiB [built] [code generated]
+  ./src/langchainOrchestrator.js 39 bytes [built] [1 error]
+
+ERROR in ./src/langchainOrchestrator.js
+Module build failed (from ./node_modules/babel-loader/lib/index.js):
+SyntaxError: /home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/src/langchainOrchestrator.js: Unexpected token, expected "(" (115:19)
+
+  113 |     narrative: new ChainStep({
+  114 |       type: STEP_TYPES.API_GPT,
+> 115 |       async handler: async (ctx) => {
+      |                    ^
+  116 |         ctx.aiNarrative = await api.gptNarrative(
+  117 |           ctx.prompt,
+  118 |           ctx.profileSummary,
+    at constructor (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:363:19)
+    at JSXParserMixin.raise (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:6609:19)
+    at JSXParserMixin.unexpected (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:6629:16)
+    at JSXParserMixin.expect (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:6910:12)
+    at JSXParserMixin.parseFunctionParams (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:13374:10)
+    at JSXParserMixin.parseMethod (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:11978:10)
+    at JSXParserMixin.parseObjectMethod (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:11879:19)
+    at JSXParserMixin.parseObjPropValue (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:11913:23)
+    at JSXParserMixin.parsePropertyDefinition (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:11850:17)
+    at JSXParserMixin.parseObjectLike (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:11765:21)
+    at JSXParserMixin.parseExprAtom (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:11270:23)
+    at JSXParserMixin.parseExprAtom (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:4776:20)
+    at JSXParserMixin.parseExprSubscripts (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:11012:23)
+    at JSXParserMixin.parseUpdate (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10997:21)
+    at JSXParserMixin.parseMaybeUnary (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10977:23)
+    at JSXParserMixin.parseMaybeUnaryOrPrivate (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10830:61)
+    at JSXParserMixin.parseExprOps (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10835:23)
+    at JSXParserMixin.parseMaybeConditional (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10812:23)
+    at JSXParserMixin.parseMaybeAssign (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10765:21)
+    at /home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10734:39
+    at JSXParserMixin.allowInAnd (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:12361:12)
+    at JSXParserMixin.parseMaybeAssignAllowIn (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10734:17)
+    at JSXParserMixin.parseExprListItem (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:12110:18)
+    at JSXParserMixin.parseExprList (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:12085:22)
+    at JSXParserMixin.parseNew (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:11680:25)
+    at JSXParserMixin.parseNewOrNewTarget (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:11675:17)
+    at JSXParserMixin.parseExprAtom (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:11279:21)
+    at JSXParserMixin.parseExprAtom (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:4776:20)
+    at JSXParserMixin.parseExprSubscripts (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:11012:23)
+    at JSXParserMixin.parseUpdate (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10997:21)
+    at JSXParserMixin.parseMaybeUnary (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10977:23)
+    at JSXParserMixin.parseMaybeUnaryOrPrivate (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10830:61)
+    at JSXParserMixin.parseExprOps (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10835:23)
+    at JSXParserMixin.parseMaybeConditional (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10812:23)
+    at JSXParserMixin.parseMaybeAssign (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10765:21)
+    at /home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10734:39
+    at JSXParserMixin.allowInAnd (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:12361:12)
+    at JSXParserMixin.parseMaybeAssignAllowIn (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10734:17)
+    at JSXParserMixin.parseObjectProperty (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:11885:83)
+    at JSXParserMixin.parseObjPropValue (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:11913:100)
+    at JSXParserMixin.parsePropertyDefinition (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:11850:17)
+    at JSXParserMixin.parseObjectLike (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:11765:21)
+    at JSXParserMixin.parseExprAtom (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:11270:23)
+    at JSXParserMixin.parseExprAtom (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:4776:20)
+    at JSXParserMixin.parseExprSubscripts (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:11012:23)
+    at JSXParserMixin.parseUpdate (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10997:21)
+    at JSXParserMixin.parseMaybeUnary (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10977:23)
+    at JSXParserMixin.parseMaybeUnaryOrPrivate (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10830:61)
+    at JSXParserMixin.parseExprOps (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10835:23)
+    at JSXParserMixin.parseMaybeConditional (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10812:23)
+ @ ./src/App.js 7:0-73 711:18-38 713:28-36 770:18-38 771:28-36
+ @ ./src/index.js 5:0-24 11:32-35
+
+webpack 5.99.9 compiled with 1 error in 95 ms
+assets by status 1.46 MiB [cached] 2 assets
+cached modules 1.31 MiB (javascript) 27.5 KiB (runtime) [cached] 57 modules
+./src/langchainOrchestrator.js 39 bytes [built] [1 error]
+
+ERROR in ./src/langchainOrchestrator.js
+Module build failed (from ./node_modules/babel-loader/lib/index.js):
+SyntaxError: /home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/src/langchainOrchestrator.js: Unexpected token, expected "(" (115:19)
+
+  113 |     narrative: new ChainStep({
+  114 |       type: STEP_TYPES.API_GPT,
+> 115 |       async handler: async (ctx) => {
+      |                    ^
+  116 |         ctx.aiNarrative = await api.gptNarrative(
+  117 |           ctx.prompt,
+  118 |           ctx.profileSummary,
+    at constructor (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:363:19)
+    at JSXParserMixin.raise (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:6609:19)
+    at JSXParserMixin.unexpected (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:6629:16)
+    at JSXParserMixin.expect (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:6910:12)
+    at JSXParserMixin.parseFunctionParams (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:13374:10)
+    at JSXParserMixin.parseMethod (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:11978:10)
+    at JSXParserMixin.parseObjectMethod (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:11879:19)
+    at JSXParserMixin.parseObjPropValue (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:11913:23)
+    at JSXParserMixin.parsePropertyDefinition (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:11850:17)
+    at JSXParserMixin.parseObjectLike (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:11765:21)
+    at JSXParserMixin.parseExprAtom (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:11270:23)
+    at JSXParserMixin.parseExprAtom (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:4776:20)
+    at JSXParserMixin.parseExprSubscripts (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:11012:23)
+    at JSXParserMixin.parseUpdate (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10997:21)
+    at JSXParserMixin.parseMaybeUnary (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10977:23)
+    at JSXParserMixin.parseMaybeUnaryOrPrivate (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10830:61)
+    at JSXParserMixin.parseExprOps (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10835:23)
+    at JSXParserMixin.parseMaybeConditional (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10812:23)
+    at JSXParserMixin.parseMaybeAssign (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10765:21)
+    at /home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10734:39
+    at JSXParserMixin.allowInAnd (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:12361:12)
+    at JSXParserMixin.parseMaybeAssignAllowIn (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10734:17)
+    at JSXParserMixin.parseExprListItem (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:12110:18)
+    at JSXParserMixin.parseExprList (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:12085:22)
+    at JSXParserMixin.parseNew (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:11680:25)
+    at JSXParserMixin.parseNewOrNewTarget (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:11675:17)
+    at JSXParserMixin.parseExprAtom (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:11279:21)
+    at JSXParserMixin.parseExprAtom (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:4776:20)
+    at JSXParserMixin.parseExprSubscripts (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:11012:23)
+    at JSXParserMixin.parseUpdate (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10997:21)
+    at JSXParserMixin.parseMaybeUnary (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10977:23)
+    at JSXParserMixin.parseMaybeUnaryOrPrivate (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10830:61)
+    at JSXParserMixin.parseExprOps (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10835:23)
+    at JSXParserMixin.parseMaybeConditional (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10812:23)
+    at JSXParserMixin.parseMaybeAssign (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10765:21)
+    at /home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10734:39
+    at JSXParserMixin.allowInAnd (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:12361:12)
+    at JSXParserMixin.parseMaybeAssignAllowIn (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10734:17)
+    at JSXParserMixin.parseObjectProperty (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:11885:83)
+    at JSXParserMixin.parseObjPropValue (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:11913:100)
+    at JSXParserMixin.parsePropertyDefinition (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:11850:17)
+    at JSXParserMixin.parseObjectLike (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:11765:21)
+    at JSXParserMixin.parseExprAtom (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:11270:23)
+    at JSXParserMixin.parseExprAtom (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:4776:20)
+    at JSXParserMixin.parseExprSubscripts (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:11012:23)
+    at JSXParserMixin.parseUpdate (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10997:21)
+    at JSXParserMixin.parseMaybeUnary (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10977:23)
+    at JSXParserMixin.parseMaybeUnaryOrPrivate (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10830:61)
+    at JSXParserMixin.parseExprOps (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10835:23)
+    at JSXParserMixin.parseMaybeConditional (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10812:23)
+ @ ./src/App.js 7:0-73 711:18-38 713:28-36 770:18-38 771:28-36
+ @ ./src/index.js 5:0-24 11:32-35
+
+webpack 5.99.9 compiled with 1 error in 46 ms
+assets by status 1.46 MiB [cached] 2 assets
+cached modules 1.31 MiB (javascript) 27.5 KiB (runtime) [cached] 57 modules
+./src/langchainOrchestrator.js 39 bytes [built] [1 error]
+
+ERROR in ./src/langchainOrchestrator.js
+Module build failed (from ./node_modules/babel-loader/lib/index.js):
+SyntaxError: /home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/src/langchainOrchestrator.js: Unexpected token, expected "(" (115:19)
+
+  113 |     narrative: new ChainStep({
+  114 |       type: STEP_TYPES.API_GPT,
+> 115 |       async handler: async (ctx) => {
+      |                    ^
+  116 |         ctx.aiNarrative = await api.gptNarrative(
+  117 |           ctx.prompt,
+  118 |           ctx.profileSummary,
+    at constructor (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:363:19)
+    at JSXParserMixin.raise (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:6609:19)
+    at JSXParserMixin.unexpected (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:6629:16)
+    at JSXParserMixin.expect (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:6910:12)
+    at JSXParserMixin.parseFunctionParams (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:13374:10)
+    at JSXParserMixin.parseMethod (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:11978:10)
+    at JSXParserMixin.parseObjectMethod (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:11879:19)
+    at JSXParserMixin.parseObjPropValue (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:11913:23)
+    at JSXParserMixin.parsePropertyDefinition (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:11850:17)
+    at JSXParserMixin.parseObjectLike (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:11765:21)
+    at JSXParserMixin.parseExprAtom (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:11270:23)
+    at JSXParserMixin.parseExprAtom (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:4776:20)
+    at JSXParserMixin.parseExprSubscripts (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:11012:23)
+    at JSXParserMixin.parseUpdate (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10997:21)
+    at JSXParserMixin.parseMaybeUnary (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10977:23)
+    at JSXParserMixin.parseMaybeUnaryOrPrivate (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10830:61)
+    at JSXParserMixin.parseExprOps (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10835:23)
+    at JSXParserMixin.parseMaybeConditional (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10812:23)
+    at JSXParserMixin.parseMaybeAssign (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10765:21)
+    at /home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10734:39
+    at JSXParserMixin.allowInAnd (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:12361:12)
+    at JSXParserMixin.parseMaybeAssignAllowIn (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10734:17)
+    at JSXParserMixin.parseExprListItem (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:12110:18)
+    at JSXParserMixin.parseExprList (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:12085:22)
+    at JSXParserMixin.parseNew (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:11680:25)
+    at JSXParserMixin.parseNewOrNewTarget (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:11675:17)
+    at JSXParserMixin.parseExprAtom (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:11279:21)
+    at JSXParserMixin.parseExprAtom (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:4776:20)
+    at JSXParserMixin.parseExprSubscripts (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:11012:23)
+    at JSXParserMixin.parseUpdate (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10997:21)
+    at JSXParserMixin.parseMaybeUnary (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10977:23)
+    at JSXParserMixin.parseMaybeUnaryOrPrivate (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10830:61)
+    at JSXParserMixin.parseExprOps (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10835:23)
+    at JSXParserMixin.parseMaybeConditional (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10812:23)
+    at JSXParserMixin.parseMaybeAssign (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10765:21)
+    at /home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10734:39
+    at JSXParserMixin.allowInAnd (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:12361:12)
+    at JSXParserMixin.parseMaybeAssignAllowIn (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10734:17)
+    at JSXParserMixin.parseObjectProperty (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:11885:83)
+    at JSXParserMixin.parseObjPropValue (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:11913:100)
+    at JSXParserMixin.parsePropertyDefinition (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:11850:17)
+    at JSXParserMixin.parseObjectLike (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:11765:21)
+    at JSXParserMixin.parseExprAtom (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:11270:23)
+    at JSXParserMixin.parseExprAtom (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:4776:20)
+    at JSXParserMixin.parseExprSubscripts (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:11012:23)
+    at JSXParserMixin.parseUpdate (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10997:21)
+    at JSXParserMixin.parseMaybeUnary (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10977:23)
+    at JSXParserMixin.parseMaybeUnaryOrPrivate (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10830:61)
+    at JSXParserMixin.parseExprOps (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10835:23)
+    at JSXParserMixin.parseMaybeConditional (/home/kavia/workspace/code-generation/neuroverse-immersive-alternate-realities-63935-f2909da9/neuroverse_immersive_realities/node_modules/@babel/parser/lib/index.js:10812:23)
+ @ ./src/App.js 7:0-73 711:18-38 713:28-36 770:18-38 771:28-36
+ @ ./src/index.js 5:0-24 11:32-35
+
+webpack 5.99.9 compiled with 1 error in 33 ms
