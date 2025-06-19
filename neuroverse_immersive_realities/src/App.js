@@ -758,23 +758,63 @@ function App() {
 
   // MirrorChat send with GPT-4o integration
   async function handleChatSend(text) {
-    // Add user message immediately
+    // Add user message immediately to chat state
     setMirrorChat(msgs => [
       ...msgs,
       { role: "user", text }
     ]);
-    // Get current chat history (excluding possible optimistic AI message)
-    const previous = mirrorChat.concat({ role: "user", text });
-    // Append placeholder (typing...) if you wish
 
-    // Fetch AI reply, then update state
-    const aiReply = await fetchAIChatMessage(text, previous);
-    setMirrorChat(msgs =>
-      // Only append AI reply if last message is user's message
-      (msgs.length && msgs[msgs.length - 1].role === "user")
-        ? [...msgs, { role: "ai", text: aiReply }]
-        : msgs
-    );
+    // Get full chat history including new user message
+    const previous = [...mirrorChat, { role: "user", text }];
+
+    // Append a temporary pending message while awaiting AI (optional UX polish)
+    setMirrorChat(msgs => [
+      ...msgs,
+      { role: "assistant", text: "[Reflecting...]" }
+    ]);
+
+    try {
+      // Fetch AI reply from OpenAI
+      const aiReply = await fetchAIChatMessage(text, previous);
+
+      // Replace temporary "[Reflecting...]" with real AI response; handle edge cases
+      setMirrorChat(msgs => {
+        const lastIdx = msgs.length - 1;
+
+        // Only replace the "[Reflecting...]" if it is the latest message and from assistant
+        if (
+          lastIdx >= 0 &&
+          msgs[lastIdx].role === "assistant" &&
+          msgs[lastIdx].text === "[Reflecting...]"
+        ) {
+          // Replace with AI reply (even fallback error messages from fetchAIChatMessage)
+          return [
+            ...msgs.slice(0, lastIdx),
+            { role: "assistant", text: aiReply }
+          ];
+        } else {
+          // If somehow not present (e.g., user sent quickly), just append as normal
+          return [...msgs, { role: "assistant", text: aiReply }];
+        }
+      });
+    } catch (err) {
+      // On error, replace placeholder or append error message as assistant
+      setMirrorChat(msgs => {
+        const lastIdx = msgs.length - 1;
+        const errorMsg = "Sorry, I couldn't reflect back just now. (AI unreachable)";
+        if (
+          lastIdx >= 0 &&
+          msgs[lastIdx].role === "assistant" &&
+          msgs[lastIdx].text === "[Reflecting...]"
+        ) {
+          return [
+            ...msgs.slice(0, lastIdx),
+            { role: "assistant", text: errorMsg }
+          ];
+        }
+        return [...msgs, { role: "assistant", text: errorMsg }];
+      });
+    }
   }
 
   // Rewind resets
