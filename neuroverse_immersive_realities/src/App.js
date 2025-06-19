@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
 import './App.css';
-// Psychological profiling UI/component
 import {
   PsychologicalProfileForm,
   analyzeProfile,
@@ -8,14 +7,16 @@ import {
   loadPsychologicalProfileFromStorage,
   PSY_PROFILE_KEY
 } from './PsychologicalProfileForm';
-
-// ---- Integration: LangChain-like Orchestrator ---- //
 import {
   buildSimulationChain,
   runChain
 } from './langchainOrchestrator';
-
 import Dashboard from "./Dashboard";
+
+/**
+ * MAIN CONTAINER for NeuroVerse: Immersive Alternate Realities.
+ * See requirements for complete feature breakdown.
+ */
 
 // --- Timeline state for Dashboard ---
 function useDashboardTimeline(maxSteps) {
