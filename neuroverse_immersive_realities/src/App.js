@@ -159,28 +159,43 @@ function AmbientMusicPlayer({ playing }) {
   );
 }
 
-// PUBLIC_INTERFACE
+/**
+ * PUBLIC_INTERFACE
+ * PromptInput: Accessible prompt input field for scenario with generate button.
+ */
 function PromptInput({ onSubmit, loading, value, setValue }) {
   // Prompt input field for scenario with generate button.
   return (
-    <form className="prompt-input" onSubmit={e => { e.preventDefault(); !loading && onSubmit(); }}>
+    <form
+      className="prompt-input"
+      onSubmit={e => { e.preventDefault(); !loading && onSubmit(); }}
+      aria-label="Prompt input"
+      role="search"
+    >
+      <label htmlFor="alt-scenario-prompt" className="sr-only">
+        Describe an alternate life scenario
+      </label>
       <input
         className="prompt-box"
         type="text"
+        id="alt-scenario-prompt"
         placeholder="Describe an alternate life scenario…"
         value={value}
         maxLength={400}
         onChange={e => setValue(e.target.value)}
         disabled={loading}
         autoFocus
+        aria-required="true"
+        aria-label="Describe an alternate life scenario"
       />
       <button
         type="submit"
         className={`btn-generate${loading ? ' loading' : ''}`}
         disabled={loading || !value.trim()}
+        aria-label={loading ? "Generating..." : "Generate scenario"}
       >
         {loading ? (
-          <span className="loader" />
+          <span className="loader" aria-live="polite" />
         ) : (
           <span>Generate</span>
         )}
@@ -299,15 +314,28 @@ function MirrorChat({ messages, onSend, disabled }) {
   }, [messages]);
 
   return (
-    <div className="mirror-chat">
-      <div className="chat-title">MirrorChat</div>
-      <div className="chat-history">
+    <section className="mirror-chat" aria-label="MirrorChat conversation" role="region" tabIndex={0}>
+      <div className="chat-title" id="chat-title" tabIndex={-1}>MirrorChat</div>
+      <div
+        className="chat-history"
+        role="log"
+        aria-live="polite"
+        aria-relevant="additions"
+        tabIndex={0}
+        style={{outline: 'none'}}
+      >
         {messages.length === 0 && (
-          <div className="chat-empty">Here you'll chat with your alternate self…</div>
+          <div className="chat-empty" tabIndex={0}>Here you'll chat with your alternate self…</div>
         )}
         {messages.map((msg, idx) => (
-          <div className={`chat-msg ${msg.role}`} key={idx}>
-            <div className="chat-avatar">{msg.role === "user" ? "🧑" : "🤖"}</div>
+          <div
+            className={`chat-msg ${msg.role}`}
+            key={idx}
+            role="listitem"
+            aria-label={msg.role === "user" ? "You said" : "Mirror AI said"}
+            tabIndex={0}
+          >
+            <div className="chat-avatar" aria-hidden="true">{msg.role === "user" ? "🧑" : "🤖"}</div>
             <div className="chat-bubble">{msg.text}</div>
           </div>
         ))}
@@ -321,18 +349,31 @@ function MirrorChat({ messages, onSend, disabled }) {
             onSend(value);
             setValue('');
           }
-        }}>
+        }}
+        aria-label="Send a message to your alternate self"
+        role="search"
+      >
+        <label htmlFor="chat-msg-field" className="sr-only">Type a message for MirrorChat</label>
         <input
+          id="chat-msg-field"
           type="text"
           className="chat-input"
           value={value}
           placeholder="Talk to your alternate self…"
           onChange={e => setValue(e.target.value)}
           disabled={disabled}
+          aria-label="Chat message input"
+          autoComplete="off"
+          autoCorrect="off"
         />
-        <button className="btn-chat" disabled={disabled || !value.trim()} type="submit">Send</button>
+        <button
+          className="btn-chat"
+          disabled={disabled || !value.trim()}
+          type="submit"
+          aria-label="Send chat message"
+        >Send</button>
       </form>
-    </div>
+    </section>
   );
 }
 
@@ -723,9 +764,16 @@ function App() {
       <AmbientMusicPlayer playing={audioEnabled} />
 
       {/* Cinematic nav bar */}
-      <nav className="nv-navbar">
+      <nav className="nv-navbar" role="navigation" aria-label="Main">
         <div className="nv-logo"><span className="nv-logo-icon">✦</span> <span>NeuroVerse</span></div>
-        <button className={`nv-sound-btn${audioEnabled ? ' on' : ''}`} onClick={() => setAudioEnabled(a => !a)} title="Ambient Music">
+        <button
+          className={`nv-sound-btn${audioEnabled ? ' on' : ''}`}
+          onClick={() => setAudioEnabled(a => !a)}
+          title="Ambient Music Toggle"
+          aria-pressed={audioEnabled}
+          aria-label={audioEnabled ? "Turn ambient music off" : "Turn ambient music on"}
+          tabIndex={0}
+        >
           {audioEnabled ? "🔊" : "🔈"}
         </button>
       </nav>
@@ -733,10 +781,10 @@ function App() {
       {/* Page transition wrapper */}
       <PageTransition inProp={transition}>
         {screen === "landing" && (
-          <main className="nv-main-lp">
-            <section className="nv-landing-content">
+          <main className="nv-main-lp" role="main" tabIndex={-1}>
+            <section className="nv-landing-content" aria-labelledby="lp-title">
               <div className="nv-landing-header">
-                <div className="nv-title-glow">Immersive Alternate Realities</div>
+                <h1 className="nv-title-glow" id="lp-title">Immersive Alternate Realities</h1>
                 <div className="nv-subtitle">
                   Envision your life in another universe. Describe a scenario and dive into your mind’s multiverse.
                 </div>
@@ -755,14 +803,14 @@ function App() {
                   initialProfile={profileObj}
                 />
               </div>
-              <div className="nv-metrics-section">
+              <section className="nv-metrics-section" aria-label="Profile Metrics">
                 <div className="nv-metrics-title">Gameplay (Curiosity, Empathy, Resilience)</div>
                 <MetricsDashboard
                   metrics={metrics}
                   setMetrics={setMetrics}
                   disabled={loading}
                 />
-              </div>
+              </section>
               <div className="nv-footer-note">
                 <span className="nv-glow-accent">Explore. Reflect. Transcend.</span>
               </div>
@@ -770,16 +818,16 @@ function App() {
           </main>
         )}
         {screen === "simulation" && (
-          <main className="nv-simulation-main">
-            <div className="nv-sim-split">
-              <section className="nv-sim-left">
+          <main className="nv-simulation-main" role="main" tabIndex={-1}>
+            <div className="nv-sim-split" role="region" aria-label="Simulation Output">
+              <aside className="nv-sim-left" aria-label="AI Narrative Timeline" tabIndex={0}>
                 <div className="nv-sim-section-label">AI NARRATIVE</div>
                 <NarrativeTimeline narrativeSteps={narrative} />
                 <MemoryPoem text={poem} />
                 <RewindReroll onRewind={handleRewind} onReroll={handleReroll} disabled={loading} />
                 <DashboardControlPanel />
-              </section>
-              <section className="nv-sim-center">
+              </aside>
+              <section className="nv-sim-center" aria-label="Simulation Timeline Metrics" tabIndex={0}>
                 <div className="nv-sim-section-label">TIMELINE METRICS</div>
                 <Dashboard
                   data={mockDashboardData}
@@ -795,7 +843,7 @@ function App() {
                 <div className="nv-sim-section-label" style={{ marginTop: 18 }}>VISUALS</div>
                 <VisualRenderPanel visuals={visuals} />
               </section>
-              <section className="nv-sim-right">
+              <aside className="nv-sim-right" aria-label="MirrorChat" tabIndex={0}>
                 <div className="nv-sim-section-label">MirrorChat</div>
                 <MirrorChat
                   messages={mirrorChat}
@@ -803,7 +851,7 @@ function App() {
                   disabled={loading}
                 />
                 <div className="nv-metrics-profile small">Profile: {profileSummary}</div>
-              </section>
+              </aside>
             </div>
           </main>
         )}

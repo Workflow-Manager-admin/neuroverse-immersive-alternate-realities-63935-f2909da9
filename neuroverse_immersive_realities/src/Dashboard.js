@@ -121,26 +121,37 @@ export default function Dashboard({ data, currentStep }) {
   }
 
   return (
-    <section className="nv-metrics-section" style={{
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      background: "rgba(0,0,0,0.22)",
-      borderRadius: 16,
-      margin: "12px auto 0 auto",
-      maxWidth: 780,
-      boxShadow: "0 0 24px #0ff1",
-      padding: 10
-    }}>
+    <section
+      className="nv-metrics-section"
+      aria-label="Simulation Metrics Dashboard"
+      tabIndex={0}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        background: "rgba(0,0,0,0.22)",
+        borderRadius: 16,
+        margin: "12px auto 0 auto",
+        maxWidth: 780,
+        boxShadow: "0 0 24px #0ff1",
+        padding: 10
+      }}
+    >
       <div style={{ marginBottom: 4, color: "#ff00ff", fontWeight: 600 }}>
         Alternate Life Metrics Dashboard
       </div>
-      <div className="metrics-dashboard" style={{
-        display: "flex",
-        gap: "22px",
-        justifyContent: "center",
-        alignItems: "flex-start"
-      }}>
+      <div
+        className="metrics-dashboard"
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          gap: "22px",
+          justifyContent: "center",
+          alignItems: "flex-start"
+        }}
+        role="region"
+        aria-label="Radial Metrics Charts"
+      >
         {renderRadialMetric("emotional", "Emotional Health", chartColors.emotional)}
         {renderRadialMetric("career", "Career Trajectory", chartColors.career)}
         {renderRadialMetric("financial", "Financial Status", chartColors.financial)}
