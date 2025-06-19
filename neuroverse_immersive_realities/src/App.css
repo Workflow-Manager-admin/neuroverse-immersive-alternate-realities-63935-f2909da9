@@ -182,6 +182,35 @@ body {
 }
 .nv-metrics-profile.small { font-size: 0.93rem; opacity: 0.82; }
 
+/* --- Psychological Profile & MBTI/Big Five Form --- */
+.psy-profile-form {
+  background: rgba(12,14,58,0.30);
+  border-radius: 20px;
+  padding: 24px 20px 18px 20px;
+  margin: 16px 0 0 0;
+  box-shadow: 0 0 24px #0ff2, 0 1.5px 17px 0 var(--nv-accent);
+  max-width: 498px;
+}
+.mbti-dim-row {
+  display: flex; align-items: center; gap: 8px;
+  margin-bottom: 7px;
+}
+.mbti-label {
+  color: var(--nv-primary); font-weight: 700; min-width: 18px;
+}
+.mbti-desc {
+  color: var(--nv-secondary); font-size: 0.98em; margin: 0 2px;
+}
+.big5-slider-row {
+  display: flex; align-items: center; gap: 7px;
+}
+.bigfive-sliders {
+  margin: 0 0 7px 0;
+}
+.psy-profile-summary {
+  font-size: 1.08rem;
+  color: var(--nv-accent);
+}
 /* Radial metrics */
 .metrics-dashboard { display: flex; gap: 26px; justify-content: center; align-items: center; }
 .radial-metrics { display: flex; gap: 26px; }

@@ -1,5 +1,13 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import './App.css';
+// Psychological profiling UI/component
+import {
+  PsychologicalProfileForm,
+  analyzeProfile,
+  getMbtiValue,
+  loadPsychologicalProfileFromStorage,
+  PSY_PROFILE_KEY
+} from './PsychologicalProfileForm';
 
 // PUBLIC_INTERFACE
 function Starfield({ numStars = 180 }) {
@@ -464,7 +472,7 @@ function psychologicalProfile(metrics) {
   return "Dreamer: open to possibilities across realities.";
 }
 
-// ---- Main Container -----
+/* ---- Main Container and Profile Flow Integration ---- */
 
 // PUBLIC_INTERFACE
 function App() {
@@ -475,11 +483,34 @@ function App() {
   const [narrative, setNarrative] = useState([]);
   const [visuals, setVisuals] = useState([]);
   const [metrics, setMetrics] = useState({ Curiosity: 60, Empathy: 40, Resilience: 75 });
-  const [profile, setProfile] = useState('');
+  const [profileSummary, setProfileSummary] = useState('');
+  const [profileObj, setProfileObj] = useState(null); // Holds full {mbti, mbtiStr, big5}
   const [poem, setPoem] = useState('');
   const [mirrorChat, setMirrorChat] = useState([]);
   const [audioEnabled, setAudioEnabled] = useState(false);
   const [transition, setTransition] = useState(false);
+
+  // On first load, restore profile from localStorage if any
+  useEffect(() => {
+    const saved = loadPsychologicalProfileFromStorage();
+    if (saved && saved.mbti && saved.big5) {
+      setProfileObj(saved);
+      // Analyze and store summary
+      setProfileSummary(analyzeProfile(getMbtiValue(saved.mbti), saved.big5));
+    }
+    // eslint-disable-next-line
+  }, []);
+
+  // When profileObj changes, update summary
+  useEffect(() => {
+    if (profileObj && profileObj.mbti && profileObj.big5) {
+      setProfileSummary(analyzeProfile(getMbtiValue(profileObj.mbti), profileObj.big5));
+    }
+  }, [profileObj]);
+
+  // --- Expose "metrics" and "profile" as context for AI/simulation logic
+  // Combine MetricsDashboard + profileObj (MBTI, OCEAN) for downstream logic
+  // For now, keep landing "metrics" and mbti/big5 decoupled, but on simulation, surface both
 
   // Handle page transition animation
   const handleTransition = nextScreen => {
@@ -490,21 +521,33 @@ function App() {
     }, 750); // Match CSS transition duration
   };
 
-  // Simulate "generate" logic
+  // Simulate "generate" logic (use both psychological profiles and metrics)
   async function handleGenerate() {
     setLoading(true);
     setNarrative([]);
     setVisuals([]);
     setPoem('');
-    setProfile('');
+    setProfileSummary('');
+    // Combine all profile data for narrative/visuals context
+    const personalitySummary = profileObj
+      ? `MBTI: ${profileObj.mbtiStr}, Big5: ${Object.entries(profileObj.big5).map(([k, v]) => `${k}: ${v}/100`).join(', ')}`
+      : "";
+    const metricsCombined = {
+      ...metrics,
+      ...((profileObj && profileObj.big5) ? profileObj.big5 : {}),
+      mbti: (profileObj && profileObj.mbtiStr) || "",
+    };
+
     // parallel fetch...
     const [narr, vis] = await Promise.all([
-      fetchNarrative(prompt, metrics),
-      fetchVisuals(prompt, metrics)
+      fetchNarrative(`${prompt}\nPersonality Profile: ${personalitySummary}`, metricsCombined),
+      fetchVisuals(`${prompt}\nPersonality Profile: ${personalitySummary}`, metricsCombined)
     ]);
     setNarrative(narr);
     setVisuals(vis);
-    setProfile(psychologicalProfile(metrics));
+    setProfileSummary(profileObj
+      ? analyzeProfile(profileObj.mbtiStr, profileObj.big5)
+      : "No profile set");
     setPoem(await fetchPoem(narr));
     setLoading(false);
     handleTransition("simulation");
@@ -525,7 +568,7 @@ function App() {
     setNarrative([]);
     setVisuals([]);
     setPoem('');
-    setProfile('');
+    setProfileSummary('');
     handleTransition("landing");
   }
 
@@ -535,14 +578,24 @@ function App() {
     setNarrative([]);
     setVisuals([]);
     setPoem('');
-    setProfile('');
+    setProfileSummary('');
+    const personalitySummary = profileObj
+      ? `MBTI: ${profileObj.mbtiStr}, Big5: ${Object.entries(profileObj.big5).map(([k, v]) => `${k}: ${v}/100`).join(', ')}`
+      : "";
+    const metricsCombined = {
+      ...metrics,
+      ...((profileObj && profileObj.big5) ? profileObj.big5 : {}),
+      mbti: (profileObj && profileObj.mbtiStr) || "",
+    };
     const [narr, vis] = await Promise.all([
-      fetchNarrative(prompt, metrics),
-      fetchVisuals(prompt, metrics)
+      fetchNarrative(`${prompt}\nPersonality Profile: ${personalitySummary}`, metricsCombined),
+      fetchVisuals(`${prompt}\nPersonality Profile: ${personalitySummary}`, metricsCombined)
     ]);
     setNarrative(narr);
     setVisuals(vis);
-    setProfile(psychologicalProfile(metrics));
+    setProfileSummary(profileObj
+      ? analyzeProfile(profileObj.mbtiStr, profileObj.big5)
+      : "No profile set");
     setPoem(await fetchPoem(narr));
     setLoading(false);
   }
@@ -568,7 +621,9 @@ function App() {
             <section className="nv-landing-content">
               <div className="nv-landing-header">
                 <div className="nv-title-glow">Immersive Alternate Realities</div>
-                <div className="nv-subtitle">Envision your life in another universe. Describe a scenario and dive into your mind’s multiverse.</div>
+                <div className="nv-subtitle">
+                  Envision your life in another universe. Describe a scenario and dive into your mind’s multiverse.
+                </div>
               </div>
               <PromptInput
                 onSubmit={handleGenerate}
@@ -576,14 +631,21 @@ function App() {
                 value={prompt}
                 setValue={setPrompt}
               />
+
+              {/* --- Psychological profile UI --- */}
+              <div style={{ margin: "16px 0" }}>
+                <PsychologicalProfileForm
+                  onProfileChange={obj => setProfileObj(obj)}
+                  initialProfile={profileObj}
+                />
+              </div>
               <div className="nv-metrics-section">
-                <div className="nv-metrics-title">Your Psychological Profile</div>
+                <div className="nv-metrics-title">Gameplay (Curiosity, Empathy, Resilience)</div>
                 <MetricsDashboard
                   metrics={metrics}
                   setMetrics={setMetrics}
                   disabled={loading}
                 />
-                <div className="nv-metrics-profile">Profile: <strong>{psychologicalProfile(metrics)}</strong></div>
               </div>
               <div className="nv-footer-note">
                 <span className="nv-glow-accent">Explore. Reflect. Transcend.</span>
@@ -611,7 +673,7 @@ function App() {
                   onSend={handleChatSend}
                   disabled={loading}
                 />
-                <div className="nv-metrics-profile small">Profile: {profile}</div>
+                <div className="nv-metrics-profile small">Profile: {profileSummary}</div>
               </section>
             </div>
           </main>
