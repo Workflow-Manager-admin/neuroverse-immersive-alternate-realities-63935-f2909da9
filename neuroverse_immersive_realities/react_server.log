@@ -12,7 +12,7 @@ asset index.html 1.98 KiB [emitted]
 orphan modules 370 KiB [orphan] 144 modules
 runtime modules 27.5 KiB 14 modules
 modules by path ./node_modules/ 2.29 MiB 471 modules
-modules by path ./src/ 81 KiB
+modules by path ./src/ 81.1 KiB
   modules by path ./src/*.js 60 KiB 5 modules
   modules by path ./src/*.css 21.1 KiB
     ./src/index.css 2.23 KiB [built] [code generated]
@@ -23,4 +23,19 @@ modules by path ./.ve/ 15.1 KiB
     ./.ve/EditorOverlay.css 2.25 KiB [built] [code generated]
     ./node_modules/css-loader/dist/cjs.js!./.ve/EditorOverlay.css 697 bytes [built] [code generated]
   ./.ve/EditorOverlay.jsx 1.58 KiB [built] [code generated]
-webpack 5.99.9 compiled successfully in 2653 ms
+webpack 5.99.9 compiled successfully in 2933 ms
+Injecting EditorRootWrapper import: ../.ve/EditorRootWrapper
+assets by status 1.98 KiB [cached] 1 asset
+assets by path *.js 1.49 MiB
+  asset bundle.js 1.44 MiB [emitted] (name: main)
+  asset main.eae45134194a5dd46418.hot-update.js 46.9 KiB [emitted] [immutable] [hmr] (name: main)
+asset main.eae45134194a5dd46418.hot-update.json 18.9 KiB [emitted] [immutable] [hmr]
+Entrypoint main 1.49 MiB = bundle.js 1.44 MiB main.eae45134194a5dd46418.hot-update.js 46.9 KiB
+cached modules 1.27 MiB [cached] 40 modules
+runtime modules 27.5 KiB 14 modules
+javascript modules 33.9 KiB
+  ./src/index.js 563 bytes [built] [code generated]
+  ./src/MirrorVerseApp.js 29 KiB [built] [code generated]
+  ./src/multiverseData.js 2.97 KiB [built] [code generated]
+  ./src/multiverseUtils.js 1.35 KiB [built] [code generated]
+webpack 5.99.9 compiled successfully in 287 ms
