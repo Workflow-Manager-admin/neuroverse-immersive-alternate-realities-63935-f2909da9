@@ -276,11 +276,110 @@ function RewindReroll({ onRewind, onReroll, disabled }) {
   );
 }
 
-// ---- Placeholder functions for API calls -----
+/*
+ * ---- Placeholder functions for API calls -----
+ */
 
+/**
+ * PUBLIC_INTERFACE
+ * Calls the OpenAI GPT-4o API to generate a life narrative based on user prompt and metrics/personality profile.
+ * This is a CLIENT-SIDE fetch to the OpenAI API, meant as a template—inject your API key securely server-side
+ * in production.
+ * 
+ * Example payload: {
+ *   model: "gpt-4o",
+ *   messages: [{role: "system", content: "You are a life simulation narrative generator..."}, {...}],
+ *   max_tokens: 900,
+ *   stream: false
+ * }
+ * 
+ * For privacy, do NOT commit a real API key; leave the field as a placeholder. CORS may block this if run from frontend directly.
+ */
+// PUBLIC_INTERFACE
+async function fetchNarrativeGPT4o(prompt, metrics) {
+  // Construct a profile summary from the provided metrics.
+  const profileSummary = Object.entries(metrics)
+    .map(([trait, val]) => `${trait}: ${val}/100`)
+    .join(', ');
+  // Build the system and user messages.
+  const messages = [
+    {
+      role: "system",
+      content:
+        "You are an AI specializing in personalized alternate reality narratives, focusing on meaning and emotion. " +
+        "Given a user's scenario description and psychological metrics (like Curiosity, Empathy, Resilience), " +
+        "generate a compelling life story in 3-5 labelled stages, each as an object {label, text}, suitable for displaying as a timeline. " +
+        "Each stage should be brief (1-2 sentences), evocative, and plausible in a sci-fi, speculative, or contemporary context."
+    },
+    {
+      role: "user",
+      content:
+        `SCENARIO: ${prompt}\n` +
+        `PERSONALITY PROFILE: ${profileSummary}\n` +
+        `Output as JSON: [ { "label": "...", "text": "..." } ] (3-5 steps)`
+    }
+  ];
+  // You should supply your OpenAI API KEY in production via a secure backend proxy or .env (never directly in browser).
+  // This is only a demonstration.
+  const OPENAI_API_KEY = 'YOUR_OPENAI_API_KEY_HERE'; // TODO: Replace securely in real code
+  const apiUrl = 'https://api.openai.com/v1/chat/completions';
+  try {
+    const response = await fetch(apiUrl, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${OPENAI_API_KEY}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        model: 'gpt-4o',
+        messages,
+        max_tokens: 900,
+        temperature: 0.9,
+        stream: false
+      })
+    });
+    if (!response.ok) {
+      throw new Error("OpenAI API error: " + response.status);
+    }
+    const data = await response.json();
+    // Extract the raw text and try parsing as JSON.
+    let text = data.choices?.[0]?.message?.content || '';
+    let json = [];
+    try {
+      // Sometimes the response contains extra text, try to extract JSON array.
+      const match = text.match(/\[.*\]/s); // Match first [] array
+      json = match ? JSON.parse(match[0]) : [];
+    } catch (e) {
+      json = [];
+    }
+    // Fall back to a single stage if parse fails.
+    if (json.length === 0) {
+      json = [{
+        label: 'Narrative',
+        text: typeof text === 'string' ? text.slice(0, 320) : '[Could not parse GPT narrative]'
+      }];
+    }
+    return json;
+  } catch (err) {
+    // Return fallback narrative on API failure.
+    return [
+      { label: 'Genesis', text: 'A new adventure unfolds in an alternate reality (GPT-4o unreachable).' },
+    ];
+  }
+}
+
+/**
+ * PUBLIC_INTERFACE
+ * Uses GPT-4o narrative generation when in production; fallback to placeholder otherwise.
+ */
 // PUBLIC_INTERFACE
 async function fetchNarrative(prompt, metrics) {
-  // Placeholder for GPT-4o narrative generation.
+  // Toggle here to enable/disable real GPT-4o calls.
+  const useGpt4o = true;
+  if (useGpt4o) {
+    return fetchNarrativeGPT4o(prompt, metrics);
+  }
+  // FALLBACK: Placeholder narrative
   return [
     { label: 'Genesis', text: 'A new adventure unfolds in an alternate reality…' },
     { label: 'Challenge', text: 'Unexpected events test your resolve and heart.' },
