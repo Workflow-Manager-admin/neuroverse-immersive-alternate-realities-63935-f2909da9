@@ -1,103 +1,18 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './App.css';
-import {
-  PsychologicalProfileForm,
-  analyzeProfile,
-  getMbtiValue,
-  loadPsychologicalProfileFromStorage,
-  PSY_PROFILE_KEY
-} from './PsychologicalProfileForm';
-import {
-  buildSimulationChain,
-  runChain
-} from './langchainOrchestrator';
+import PsychologicalProfileForm, { analyzeProfile, getMbtiValue, loadPsychologicalProfileFromStorage, PSY_PROFILE_KEY } from './PsychologicalProfileForm';
 import Dashboard from "./Dashboard";
+import { buildSimulationChain, runChain } from "./langchainOrchestrator";
 
 /**
  * MAIN CONTAINER for NeuroVerse: Immersive Alternate Realities.
- * See requirements for complete feature breakdown.
+ * Cinematic landing, interactive simulation prompt, split AI simulation (timeline & visuals),
+ * immersive charts, MirrorChat (AI chat), memory poem, reroll/rewind, music and full logic.
  */
 
-// --- Timeline state for Dashboard ---
-function useDashboardTimeline(maxSteps) {
-  const [step, setStep] = useState(0);
-  const next = () => setStep(s => Math.min(s + 1, maxSteps - 1));
-  const prev = () => setStep(s => Math.max(s - 1, 0));
-  const set = (v) => setStep(Math.min(Math.max(0, v), maxSteps - 1));
-  return [step, set, next, prev];
-}
-
-// Sample/mock simulation timeline metrics for the dashboard
-const mockDashboardData = [
-  {
-    label: "Genesis",
-    emotional: 72,
-    career: 55,
-    financial: 40,
-    relationships: 82,
-  },
-  {
-    label: "Challenge",
-    emotional: 65,
-    career: 58,
-    financial: 43,
-    relationships: 79
-  },
-  {
-    label: "Breakthrough",
-    emotional: 80,
-    career: 78,
-    financial: 61,
-    relationships: 88
-  },
-  {
-    label: "Revelation",
-    emotional: 90,
-    career: 83,
-    financial: 75,
-    relationships: 94
-  },
-];
-
-// Timeline step state & controls for Dashboard charts
-function DashboardControlPanel() {
-  const [step, setStep, next, prev] = useDashboardTimeline(mockDashboardData.length);
-  // Place any additional interactive controls here if desired
-  return null; // Already integrated as navigators below; structure here for future extension
-}
-
-// Timeline navigator UI for dashboard metrics (step switching)
-function DashboardTimelineNavigator({ current, max, setTimelineStep }) {
-  return (
-    <div style={{ margin: "6px 0" }}>
-      <button
-        style={{
-          background: "var(--nv-accent)", color: "#fff", border: "none",
-          borderRadius: 12, padding: "6px 15px", marginRight: 6, cursor: "pointer",
-          fontWeight: 700, boxShadow: "0 0 7px #ff00ff77", opacity: current > 0 ? 1 : 0.5
-        }}
-        disabled={current === 0}
-        onClick={() => setTimelineStep(curr => Math.max(0, curr - 1))}
-      >⏪ Prev</button>
-      <span style={{ color: "var(--nv-accent)", fontWeight: 600, margin: "0 9px", fontSize: "1.06em" }}>
-        Step {current + 1} / {max + 1}
-      </span>
-      <button
-        style={{
-          background: "var(--nv-primary)", color: "#12122a", border: "none",
-          borderRadius: 12, padding: "6px 15px", marginLeft: 6, cursor: "pointer",
-          fontWeight: 700, boxShadow: "0 0 7px #0fffff77", opacity: current < max ? 1 : 0.5
-        }}
-        disabled={current === max}
-        onClick={() => setTimelineStep(curr => Math.min(max, curr + 1))}
-      >Next ⏩</button>
-    </div>
-  );
-}
-
-// PUBLIC_INTERFACE
+/* --- Galaxy & Cinematic BG Elements --- */
 function Starfield({ numStars = 180 }) {
-  // Starfield animation for background effect.
+  // Starfield animation for galaxy BG.
   const stars = Array.from({ length: numStars }, (_, i) => ({
     id: i,
     x: Math.random() * 100,
@@ -126,12 +41,10 @@ function Starfield({ numStars = 180 }) {
   );
 }
 
-// PUBLIC_INTERFACE
 function GalaxyBackground() {
   // Cine-style galaxy background with animated gradients and glows.
   return (
     <div className="galaxy-bg">
-      {/* Large radial gradients for galaxy core and accents */}
       <div className="galaxy-core" />
       <div className="galaxy-accent1" />
       <div className="galaxy-accent2" />
@@ -140,32 +53,73 @@ function GalaxyBackground() {
   );
 }
 
-// PUBLIC_INTERFACE
+/* --- Ambient Music --- */
 function AmbientMusicPlayer({ playing }) {
-  // Simple ambient audio with sci-fi and binaural feel (placeholder file)
+  // Simple ambient audio (placeholder sci-fi loop)
   const audioRef = useRef();
-  React.useEffect(() => {
+  useEffect(() => {
     if (playing) {
       audioRef.current && audioRef.current.play();
     } else {
-      audioRef.current && audioRef.current.pause();
-      audioRef.current && (audioRef.current.currentTime = 0);
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current.currentTime = 0;
+      }
     }
   }, [playing]);
   return (
     <audio ref={audioRef} loop>
       <source src="https://cdn.pixabay.com/audio/2022/03/15/audio_11e9853c07.mp3" type="audio/mp3" />
-      {/* Placeholder: put proper sci-fi, binaural track here */}
     </audio>
   );
 }
 
-/**
- * PUBLIC_INTERFACE
- * PromptInput: Accessible prompt input field for scenario with generate button.
- */
+/* --- Simulation Dashboard / Timeline Demo Data --- */
+const mockTimelineMetrics = [
+  { label: "Genesis", emotional: 72, career: 55, financial: 40, relationships: 82 },
+  { label: "Challenge", emotional: 65, career: 58, financial: 43, relationships: 79 },
+  { label: "Breakthrough", emotional: 80, career: 78, financial: 61, relationships: 88 },
+  { label: "Revelation", emotional: 90, career: 83, financial: 75, relationships: 94 },
+];
+
+function DashboardTimelineNavigator({ current, max, setTimelineStep }) {
+  return (
+    <div style={{ margin: "6px 0" }}>
+      <button
+        style={{
+          background: "var(--nv-accent)", color: "#fff", border: "none",
+          borderRadius: 12, padding: "6px 15px", marginRight: 6, cursor: "pointer",
+          fontWeight: 700, boxShadow: "0 0 7px #ff00ff77", opacity: current > 0 ? 1 : 0.5
+        }}
+        disabled={current === 0}
+        onClick={() => setTimelineStep(curr => Math.max(0, curr - 1))}
+      >⏪ Prev</button>
+      <span style={{ color: "var(--nv-accent)", fontWeight: 600, margin: "0 9px", fontSize: "1.06em" }}>
+        Step {current + 1} / {max + 1}
+      </span>
+      <button
+        style={{
+          background: "var(--nv-primary)", color: "#12122a", border: "none",
+          borderRadius: 12, padding: "6px 15px", marginLeft: 6, cursor: "pointer",
+          fontWeight: 700, boxShadow: "0 0 7px #0fffff77", opacity: current < max ? 1 : 0.5
+        }}
+        disabled={current === max}
+        onClick={() => setTimelineStep(curr => Math.min(max, curr + 1))}
+      >Next ⏩</button>
+    </div>
+  );
+}
+
+function PageTransition({ inProp, children }) {
+  return (
+    <div className={`page-transition${inProp ? ' in' : ''}`}>
+      {children}
+    </div>
+  );
+}
+
+/* --- Simulation Prompt Input --- */
 function PromptInput({ onSubmit, loading, value, setValue }) {
-  // Prompt input field for scenario with generate button.
   return (
     <form
       className="prompt-input"
@@ -205,9 +159,8 @@ function PromptInput({ onSubmit, loading, value, setValue }) {
   );
 }
 
-// PUBLIC_INTERFACE
+/* --- Narrative Timeline Display --- */
 function NarrativeTimeline({ narrativeSteps }) {
-  // Display split timeline from AI narrative with fade in.
   return (
     <div className="narrative-timeline">
       {narrativeSteps.map((step, idx) => (
@@ -223,9 +176,8 @@ function NarrativeTimeline({ narrativeSteps }) {
   );
 }
 
-// PUBLIC_INTERFACE
+/* --- Visual Render (AI images) --- */
 function VisualRenderPanel({ visuals }) {
-  // Display generated images of the simulation (placeholder)
   return (
     <div className="visual-render-panel">
       {visuals.length === 0 && (
@@ -242,12 +194,10 @@ function VisualRenderPanel({ visuals }) {
   );
 }
 
-// PUBLIC_INTERFACE
+/* --- Metrics Dashboard for Gameplay/Personality --- */
 function MetricsDashboard({ metrics, setMetrics, disabled }) {
-  // Scifi metrics with radial and sliders for profile.
-  const onMetricChange = (key, val) => {
-    setMetrics(m => ({ ...m, [key]: val }));
-  };
+  // Show radial metrics and sliders for Curiosity, Empathy, Resilience
+  const onMetricChange = (key, val) => setMetrics(m => ({ ...m, [key]: val }));
   return (
     <div className="metrics-dashboard">
       <div className="radial-metrics">
@@ -280,9 +230,9 @@ function MetricsDashboard({ metrics, setMetrics, disabled }) {
   );
 }
 
-// PUBLIC_INTERFACE
+/* --- Radial Metric for Dashboard and Sim --- */
 function RadialMetric({ label, value, accent }) {
-  // Radial metric component with circular SVG
+  // Circular metric value
   const r = 30, c = 2 * Math.PI * r, p = value / 100;
   return (
     <div className="radial-metric">
@@ -304,13 +254,12 @@ function RadialMetric({ label, value, accent }) {
   );
 }
 
-// PUBLIC_INTERFACE
+/* --- MirrorChat: Immersive Chat With AI (no audio for brevity) --- */
 function MirrorChat({ messages, onSend, disabled }) {
-  // Chat interface with focus on immersive AI. No actual voices due to scope.
   const [value, setValue] = useState('');
   const msgEndRef = useRef(null);
 
-  React.useEffect(() => {
+  useEffect(() => {
     msgEndRef.current && msgEndRef.current.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
@@ -323,7 +272,7 @@ function MirrorChat({ messages, onSend, disabled }) {
         aria-live="polite"
         aria-relevant="additions"
         tabIndex={0}
-        style={{outline: 'none'}}
+        style={{ outline: 'none' }}
       >
         {messages.length === 0 && (
           <div className="chat-empty" tabIndex={0}>Here you'll chat with your alternate self…</div>
@@ -378,9 +327,8 @@ function MirrorChat({ messages, onSend, disabled }) {
   );
 }
 
-// PUBLIC_INTERFACE
+/* --- Memory Poem: Lyric-Style AI Summary --- */
 function MemoryPoem({ text }) {
-  // Displays a poetic, stylized summary from simulation.
   if (!text) return null;
   return (
     <div className="memory-poem">
@@ -390,19 +338,8 @@ function MemoryPoem({ text }) {
   );
 }
 
-// PUBLIC_INTERFACE
-function PageTransition({ inProp, children }) {
-  // Fluid dreamlike transition using css and fade/blur (framer-motion would require npm install)
-  return (
-    <div className={`page-transition${inProp ? ' in' : ''}`}>
-      {children}
-    </div>
-  );
-}
-
-// PUBLIC_INTERFACE
+/* --- Rewind / Reroll Controls --- */
 function RewindReroll({ onRewind, onReroll, disabled }) {
-  // Lets user re-explore scenarios.
   return (
     <div className="rewind-controls">
       <button className="btn-rewind" onClick={onRewind} disabled={disabled} title="Rewind">⏪ Rewind</button>
@@ -411,110 +348,11 @@ function RewindReroll({ onRewind, onReroll, disabled }) {
   );
 }
 
-/*
- * ---- Placeholder functions for API calls -----
- */
-
-/**
- * PUBLIC_INTERFACE
- * Calls the OpenAI GPT-4o API to generate a life narrative based on user prompt and metrics/personality profile.
- * This is a CLIENT-SIDE fetch to the OpenAI API, meant as a template—inject your API key securely server-side
- * in production.
- * 
- * Example payload: {
- *   model: "gpt-4o",
- *   messages: [{role: "system", content: "You are a life simulation narrative generator..."}, {...}],
- *   max_tokens: 900,
- *   stream: false
- * }
- * 
- * For privacy, do NOT commit a real API key; leave the field as a placeholder. CORS may block this if run from frontend directly.
- */
-// PUBLIC_INTERFACE
-async function fetchNarrativeGPT4o(prompt, metrics) {
-  // Construct a profile summary from the provided metrics.
-  const profileSummary = Object.entries(metrics)
-    .map(([trait, val]) => `${trait}: ${val}/100`)
-    .join(', ');
-  // Build the system and user messages.
-  const messages = [
-    {
-      role: "system",
-      content:
-        "You are an AI specializing in personalized alternate reality narratives, focusing on meaning and emotion. " +
-        "Given a user's scenario description and psychological metrics (like Curiosity, Empathy, Resilience), " +
-        "generate a compelling life story in 3-5 labelled stages, each as an object {label, text}, suitable for displaying as a timeline. " +
-        "Each stage should be brief (1-2 sentences), evocative, and plausible in a sci-fi, speculative, or contemporary context."
-    },
-    {
-      role: "user",
-      content:
-        `SCENARIO: ${prompt}\n` +
-        `PERSONALITY PROFILE: ${profileSummary}\n` +
-        `Output as JSON: [ { "label": "...", "text": "..." } ] (3-5 steps)`
-    }
-  ];
-  // You should supply your OpenAI API KEY in production via a secure backend proxy or .env (never directly in browser).
-  // This is only a demonstration.
-  const OPENAI_API_KEY = 'YOUR_OPENAI_API_KEY_HERE'; // TODO: Replace securely in real code
-  const apiUrl = 'https://api.openai.com/v1/chat/completions';
-  try {
-    const response = await fetch(apiUrl, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${OPENAI_API_KEY}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        model: 'gpt-4o',
-        messages,
-        max_tokens: 900,
-        temperature: 0.9,
-        stream: false
-      })
-    });
-    if (!response.ok) {
-      throw new Error("OpenAI API error: " + response.status);
-    }
-    const data = await response.json();
-    // Extract the raw text and try parsing as JSON.
-    let text = data.choices?.[0]?.message?.content || '';
-    let json = [];
-    try {
-      // Sometimes the response contains extra text, try to extract JSON array.
-      const match = text.match(/\[.*\]/s); // Match first [] array
-      json = match ? JSON.parse(match[0]) : [];
-    } catch (e) {
-      json = [];
-    }
-    // Fall back to a single stage if parse fails.
-    if (json.length === 0) {
-      json = [{
-        label: 'Narrative',
-        text: typeof text === 'string' ? text.slice(0, 320) : '[Could not parse GPT narrative]'
-      }];
-    }
-    return json;
-  } catch (err) {
-    // Return fallback narrative on API failure.
-    return [
-      { label: 'Genesis', text: 'A new adventure unfolds in an alternate reality (GPT-4o unreachable).' },
-    ];
-  }
-}
-
-/**
- * PUBLIC_INTERFACE
- * Uses GPT-4o narrative generation when in production; fallback to placeholder otherwise.
- */
-// PUBLIC_INTERFACE
+/* --- API Placeholders for GPT-4o / Stable Diffusion --- */
 async function fetchNarrative(prompt, metrics) {
-  // Toggle here to enable/disable real GPT-4o calls.
-  const useGpt4o = true;
-  if (useGpt4o) {
-    return fetchNarrativeGPT4o(prompt, metrics);
-  }
-  // FALLBACK: Placeholder narrative
+  // Placeholder: replace with real GPT-4o API/proxy in production!
+  // Simulate a delay and return demo format.
+  await new Promise(r => setTimeout(r, 600));
   return [
     { label: 'Genesis', text: 'A new adventure unfolds in an alternate reality…' },
     { label: 'Challenge', text: 'Unexpected events test your resolve and heart.' },
@@ -522,64 +360,16 @@ async function fetchNarrative(prompt, metrics) {
     { label: 'Revelation', text: 'A lesson echoes across the stars.' },
   ];
 }
-
-/**
- * PUBLIC_INTERFACE
- * Calls a Stable Diffusion API to generate images based on the user's scenario and psychological metrics/personality profile.
- * Replace the dummy STABLE_DIFFUSION_API_KEY and API endpoint (apiUrl) for real usage or proxy via secure backend.
- * The function returns an array of URLs (either direct images or data URLs, depending on backend).
- */
- // PUBLIC_INTERFACE
 async function fetchVisuals(prompt, metrics) {
-  const profileSummary = Object.entries(metrics)
-    .map(([trait, val]) => `${trait}: ${val}/100`)
-    .join(', ');
-  // Example: payload for text2img endpoint (common for SD APIs)
-  const payload = {
-    prompt: `Cinematic, hi-res, atmospheric illustration of: ${prompt}. Psychological traits: ${profileSummary}. Science fiction, alternate universe, evocative realism, concept art.`,
-    num_images: 2,
-    steps: 23,
-    guidance_scale: 7.5,
-    width: 512,
-    height: 384
-  };
-
-  // DUMMY API KEY: In real code, NEVER commit real API key, use secure backend proxy.
-  const STABLE_DIFFUSION_API_KEY = 'YOUR_STABLE_DIFFUSION_API_KEY_HERE';
-  // You may use a proxy or 3rd party SD API, e.g., replicate.com, stability.ai, etc.
-  // For demo, this endpoint is not real and will return fallback visuals.
-  const apiUrl = 'https://api.stable-diffusion-api-example.com/v1/generate'; // <-- Needs real or proxied endpoint
-
-  try {
-    const response = await fetch(apiUrl, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${STABLE_DIFFUSION_API_KEY}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(payload)
-    });
-    if (!response.ok) throw new Error("Stable Diffusion API error: " + response.status);
-    const data = await response.json();
-
-    // Common API shape: { images: ['https://...jpg', ...] } or { images: ['data:image/png;base64,...', ...] }
-    if (Array.isArray(data.images)) {
-      return data.images;
-    }
-    // fallback if expected field not found
-    return [];
-  } catch (err) {
-    // FALLBACK: Return unsplash-style images if SD integration fails or is unreachable
-    return [
-      "https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=400&q=80",
-      "https://images.unsplash.com/photo-1462331940025-496dfbfc7564?auto=format&fit=crop&w=400&q=80"
-    ];
-  }
+  // Placeholder: replace with real Stable Diffusion API/proxy in production!
+  await new Promise(r => setTimeout(r, 450));
+  return [
+    "https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=400&q=80",
+    "https://images.unsplash.com/photo-1462331940025-496dfbfc7564?auto=format&fit=crop&w=400&q=80"
+  ];
 }
-
-// PUBLIC_INTERFACE
 async function fetchPoem(narrativeSteps) {
-  // Placeholder for memory poem/generative summary.
+  await new Promise(r => setTimeout(r, 300));
   return (
     "The stars whisper futures, untold, " +
     "Across memories relived, reborn in cold, " +
@@ -587,10 +377,8 @@ async function fetchPoem(narrativeSteps) {
     "And danced with fate in a galaxy sky."
   );
 }
-
-// PUBLIC_INTERFACE
 function psychologicalProfile(metrics) {
-  // Simple psychological profiling (stub).
+  // Simple "profile archetype" by metrics.
   const { Curiosity, Empathy, Resilience } = metrics;
   if (Curiosity > 70 && Empathy > 70)
     return "Visionary Explorer: driven by wonder and compassion.";
@@ -599,11 +387,16 @@ function psychologicalProfile(metrics) {
   return "Dreamer: open to possibilities across realities.";
 }
 
-/* ---- Main Container and Profile Flow Integration ---- */
+/* --- GPT-powered AI chat, mock version for local demo --- */
+async function fetchAIChatMessage(message, history = []) {
+  await new Promise(r => setTimeout(r, 400));
+  // Alternate between "You" and "AI" for effect
+  return "Reflecting from another universe, I'd choose compassion every time. 💫";
+}
 
-// PUBLIC_INTERFACE
+/* --- Main Container --- */
 function App() {
-  // State management
+  // State
   const [screen, setScreen] = useState("landing");
   const [prompt, setPrompt] = useState('');
   const [loading, setLoading] = useState(false);
@@ -611,51 +404,46 @@ function App() {
   const [visuals, setVisuals] = useState([]);
   const [metrics, setMetrics] = useState({ Curiosity: 60, Empathy: 40, Resilience: 75 });
   const [profileSummary, setProfileSummary] = useState('');
-  const [profileObj, setProfileObj] = useState(null); // Holds full {mbti, mbtiStr, big5}
+  const [profileObj, setProfileObj] = useState(null);
   const [poem, setPoem] = useState('');
   const [mirrorChat, setMirrorChat] = useState([]);
   const [audioEnabled, setAudioEnabled] = useState(false);
   const [transition, setTransition] = useState(false);
 
-  // On first load, restore profile from localStorage if any
+  // Restore profile from localStorage (if present) on load
   useEffect(() => {
     const saved = loadPsychologicalProfileFromStorage();
     if (saved && saved.mbti && saved.big5) {
       setProfileObj(saved);
-      // Analyze and store summary
       setProfileSummary(analyzeProfile(getMbtiValue(saved.mbti), saved.big5));
     }
-    // eslint-disable-next-line
   }, []);
-
-  // When profileObj changes, update summary
+  // On profileObj update, update summary
   useEffect(() => {
     if (profileObj && profileObj.mbti && profileObj.big5) {
       setProfileSummary(analyzeProfile(getMbtiValue(profileObj.mbti), profileObj.big5));
     }
   }, [profileObj]);
 
-  // --- Expose "metrics" and "profile" as context for AI/simulation logic
-  // Combine MetricsDashboard + profileObj (MBTI, OCEAN) for downstream logic
-  // For now, keep landing "metrics" and mbti/big5 decoupled, but on simulation, surface both
+  const [dashboardTimelineStep, setDashboardTimelineStep] = useState(0);
 
-  // Handle page transition animation
+  // Page transition animation (uses .page-transition CSS duration)
   const handleTransition = nextScreen => {
     setTransition(true);
     setTimeout(() => {
       setScreen(nextScreen);
       setTransition(false);
-    }, 750); // Match CSS transition duration
+    }, 750);
   };
 
-  // Simulate "generate" logic (use both psychological profiles and metrics)
+  // Simulation "generate" logic (uses orchestrator pattern)
   async function handleGenerate() {
     setLoading(true);
     setNarrative([]);
     setVisuals([]);
     setPoem('');
     setProfileSummary('');
-    // Prepare orchestrator/chain context
+    // Compose chain context
     let ctxInit = {
       prompt,
       profile: profileObj,
@@ -663,7 +451,7 @@ function App() {
       big5: profileObj?.big5,
       metrics
     };
-    // Compose minimal API adapter for the chain (wraps existing functions)
+    // Compose API adapters - ready for real and mock integration
     const api = {
       gptNarrative: async (pmt, profileSummary, met) =>
         fetchNarrative(`${pmt}\nPersonality Profile: ${profileSummary || ''}`, {
@@ -678,15 +466,14 @@ function App() {
           mbti: (profileObj && profileObj.mbtiStr) || ""
         }),
     };
-    // Build the simulation logic chain
+    // Create & Run chain
     const chain = buildSimulationChain(api);
-    // Run orchestrated multi-step logic flow
     const resultCtx = await runChain(chain, "gather", ctxInit);
     setNarrative(resultCtx.aiNarrative);
     setVisuals(resultCtx.visuals);
     setProfileSummary(
       profileObj
-        ? analyzeProfile(profileObj.mbtiStr, profileObj.big5)
+        ? analyzeProfile(getMbtiValue(profileObj.mbti), profileObj.big5)
         : "No profile set"
     );
     setPoem(await fetchPoem(resultCtx.aiNarrative));
@@ -694,112 +481,34 @@ function App() {
     handleTransition("simulation");
   }
 
-  /**
-   * MirrorChat send/receive logic.
-   * Integrates OpenAI GPT-4o API for live AI chat replies.
-   */
-
-  // PUBLIC_INTERFACE
-  async function fetchAIChatMessage(message, history = []) {
-    /**
-     * Send user message (and chat history) to OpenAI's Chat Completion API (GPT-4o)
-     * and return the AI's reply.
-     * RECOMMEND: Proxy your API key securely in prod.
-     *
-     * @param {string} message - user input.
-     * @param {Array} history - optional prior messages [{role, text}], to provide better context/persona.
-     * @returns {string} AI response text.
-     */
-    // TODO: Replace with your actual API KEY – never commit secret!
-    const OPENAI_API_KEY = 'YOUR_OPENAI_API_KEY_HERE'; // <-- PLACEHOLDER ONLY
-
-    const messages = [
-      {
-        role: "system",
-        content: "You are the 'MirrorChat' AI: act as an alternate version of the user's self, offering supportive, thoughtful, sometimes surprising but always friendly responses. Keep responses concise, first-person, and immersive—as if the AI is a sci-fi alternate self reflecting from another universe."
-      },
-      // Use previous exchanges for chat memory if available:
-      ...history
-        .filter(msg => msg.role === "user" || msg.role === "ai")
-        .map(msg => ({
-          role: msg.role === "user" ? "user" : "assistant",
-          content: msg.text
-        })),
-      {
-        role: "user",
-        content: message
-      }
-    ];
-
-    try {
-      const response = await fetch('https://api.openai.com/v1/chat/completions', {
-        method: "POST",
-        headers: {
-          "Authorization": `Bearer ${OPENAI_API_KEY}`, // PLACEHOLDER – insert actual key securely!
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          model: "gpt-4o",
-          messages,
-          max_tokens: 180,
-          temperature: 0.85
-        })
-      });
-      if (!response.ok) {
-        throw new Error(`OpenAI error: ${response.status}`);
-      }
-      const data = await response.json();
-      // Extract and return text:
-      return data?.choices?.[0]?.message?.content?.trim() || "[No AI reply]";
-    } catch (err) {
-      // On error, return a friendly fallback message.
-      return "Sorry, I couldn't reflect back just now. (AI unreachable)";
-    }
-  }
-
-  // MirrorChat send with GPT-4o integration
+  // MirrorChat logic
   async function handleChatSend(text) {
-    // Add user message immediately to chat state
-    setMirrorChat(msgs => [
-      ...msgs,
-      { role: "user", text }
-    ]);
-
-    // Get full chat history including new user message
+    // Add user message
+    setMirrorChat(msgs => [...msgs, { role: "user", text }]);
+    // Prepare history for AI (include new message)
     const previous = [...mirrorChat, { role: "user", text }];
 
-    // Append a temporary pending message while awaiting AI (optional UX polish)
-    setMirrorChat(msgs => [
-      ...msgs,
-      { role: "assistant", text: "[Reflecting...]" }
-    ]);
-
+    // Add a "thinking" pending assistant message
+    setMirrorChat(msgs => [...msgs, { role: "assistant", text: "[Reflecting...]" }]);
     try {
-      // Fetch AI reply from OpenAI
+      // Real API would use OpenAI GPT-4o or similar
       const aiReply = await fetchAIChatMessage(text, previous);
-
-      // Replace temporary "[Reflecting...]" with real AI response; handle edge cases
       setMirrorChat(msgs => {
         const lastIdx = msgs.length - 1;
-
-        // Only replace the "[Reflecting...]" if it is the latest message and from assistant
         if (
           lastIdx >= 0 &&
           msgs[lastIdx].role === "assistant" &&
           msgs[lastIdx].text === "[Reflecting...]"
         ) {
-          // Replace with AI reply (even fallback error messages from fetchAIChatMessage)
           return [
             ...msgs.slice(0, lastIdx),
             { role: "assistant", text: aiReply }
           ];
         } else {
-          // If somehow not present (e.g., user sent quickly), just append as normal
           return [...msgs, { role: "assistant", text: aiReply }];
         }
       });
     } catch (err) {
-      // On error, replace placeholder or append error message as assistant
       setMirrorChat(msgs => {
         const lastIdx = msgs.length - 1;
         const errorMsg = "Sorry, I couldn't reflect back just now. (AI unreachable)";
@@ -818,7 +527,7 @@ function App() {
     }
   }
 
-  // Rewind resets
+  // Rewind: reset simulation to landing
   function handleRewind() {
     setMirrorChat([]);
     setNarrative([]);
@@ -828,14 +537,13 @@ function App() {
     handleTransition("landing");
   }
 
-  // Reroll: regenerate new reality
+  // Reroll: rerun simulation, preserve prompt/profile
   async function handleReroll() {
     setLoading(true);
     setNarrative([]);
     setVisuals([]);
     setPoem('');
     setProfileSummary('');
-    // Use orchestrator chain to rerun simulation flow with existing prompt/profile
     let ctxInit = {
       prompt,
       profile: profileObj,
@@ -863,17 +571,14 @@ function App() {
     setVisuals(resultCtx.visuals);
     setProfileSummary(
       profileObj
-        ? analyzeProfile(profileObj.mbtiStr, profileObj.big5)
+        ? analyzeProfile(getMbtiValue(profileObj.mbti), profileObj.big5)
         : "No profile set"
     );
     setPoem(await fetchPoem(resultCtx.aiNarrative));
     setLoading(false);
   }
 
-  // -- Dashboard timeline state for simulation (shared with Dashboard, TimelineNavigator)
-  const [dashboardTimelineStep, setDashboardTimelineStep] = useState(0);
-
-  // -- Render --
+  /* Main render */
   return (
     <div className="nv-app-root">
       <GalaxyBackground />
@@ -911,7 +616,6 @@ function App() {
                 value={prompt}
                 setValue={setPrompt}
               />
-
               {/* --- Psychological profile UI --- */}
               <div style={{ margin: "16px 0" }}>
                 <PsychologicalProfileForm
@@ -941,18 +645,17 @@ function App() {
                 <NarrativeTimeline narrativeSteps={narrative} />
                 <MemoryPoem text={poem} />
                 <RewindReroll onRewind={handleRewind} onReroll={handleReroll} disabled={loading} />
-                <DashboardControlPanel />
               </aside>
               <section className="nv-sim-center" aria-label="Simulation Timeline Metrics" tabIndex={0}>
                 <div className="nv-sim-section-label">TIMELINE METRICS</div>
                 <Dashboard
-                  data={mockDashboardData}
+                  data={mockTimelineMetrics}
                   currentStep={dashboardTimelineStep}
                 />
                 <div style={{ textAlign: 'center', color: 'var(--text-secondary)', marginTop: 6, marginBottom: 0, fontSize: "0.97rem" }}>
                   <DashboardTimelineNavigator
                     current={dashboardTimelineStep}
-                    max={mockDashboardData.length - 1}
+                    max={mockTimelineMetrics.length - 1}
                     setTimelineStep={setDashboardTimelineStep}
                   />
                 </div>
