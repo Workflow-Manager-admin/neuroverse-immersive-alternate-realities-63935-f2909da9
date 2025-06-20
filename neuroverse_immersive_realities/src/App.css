@@ -1,16 +1,30 @@
 :root {
-  --base-light: #00ffff;
-  --base-dark: #000014;
-  --text-color: #ffffff;
+  --base-light: #0ff;
+  --base-dark: #060017;
+  --text-color: #f6feff;
   --text-secondary: rgba(255, 255, 255, 0.78);
-  --border-color: rgba(255, 255, 255, 0.12);
+  --border-color: rgba(255, 255, 255, 0.09);
+
   --nv-primary: #0ff;
   --nv-secondary: #800080;
   --nv-accent: #ff00ff;
-  --nv-galaxy-0: #0eeaff99;
-  --nv-galaxy-1: #8458e09d;
-  --nv-glow: 0 0 40px 12px var(--nv-primary);
+  --nv-midnight: #120121;
+  --nv-purple: #41144d;
+  --nv-magenta: #ff00ff;
+
+  /* Cinematic galaxy gradients and glows */
+  --nv-galaxy-0: #0eeaffc9;  /* punchier cyan blue, more vivid for animation */
+  --nv-galaxy-1: #221146d0;
+  --nv-galaxy-2: #41144dcc;
+  --nv-galaxy-bright: #2fd6ffe8;
+  --nv-galaxy-dark: #180035ff;
+  --nv-glow: 0 0 42px 12px var(--nv-primary), 0 0 22px 6px #ff00ff50;
+  --nv-heading-font: 'Space Grotesk', 'Inter', 'Orbitron', 'Arial', sans-serif;
+  --nv-body-font: 'Inter', 'Roboto', 'Helvetica', sans-serif;
 }
+
+/* Web font imports: Space Grotesk and Inter */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Space+Grotesk:wght@400;700&display=swap');
 
 body {
   margin: 0;
@@ -31,8 +45,31 @@ body {
   top: 0; left: 0;
   pointer-events: none;
   overflow: hidden;
-  background: radial-gradient(ellipse 80% 60% at 60% 40%, var(--nv-galaxy-0), transparent 80%);
+  /* Layered gradients for deep galaxy effect, using dark blue/purple/teal/magenta stops */
+  background:
+    radial-gradient(ellipse 120% 90% at 60% 37%, #2fd6ff22 0%, transparent 68%),
+    radial-gradient(ellipse 89% 68% at 53% 45%, #41144dcc 0%, #180035ff 68%, transparent 96%),
+    linear-gradient(110deg, #080014 0%, #221146 54%, #16004a 98%);
   transition: filter 0.75s;
+  animation: galaxy-fade 18s ease-in-out infinite alternate;
+}
+
+/* Very subtle slow shimmer for the whole background */
+@keyframes galaxy-fade {
+  0% { filter: brightness(1) blur(0px);}
+  50% { filter: brightness(1.07) blur(2px);}
+  100% { filter: brightness(1) blur(0.5px);}
+}
+
+.galaxy-glow-overlay {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  pointer-events: none;
+  background: radial-gradient(circle at 70% 20%, rgba(47,214,255,0.15) 0%, transparent 65%),
+    radial-gradient(circle at 18% 69%, #ff00ff14 0%, transparent 75%),
+    radial-gradient(ellipse 170% 130% at 70% 160%, #0ff4 0%, transparent 82%);
+  z-index: 2;
 }
 
 .galaxy-core {
@@ -53,21 +90,68 @@ body {
 .galaxy-accent2 { width: 32vw; height: 20vw; background: #ff48f6; right: 10vw; bottom: 5vw;}
 
 /* --- Starfield --- */
-.starfield { z-index: 1; position: absolute; width: 100%; height: 100%; pointer-events: none; top: 0; left: 0;}
+.starfield {
+  z-index: 1;
+  position: absolute;
+  width: 100vw; height: 100vh;
+  pointer-events: none;
+  top: 0; left: 0;
+  filter: brightness(1.16);
+}
+
 .star {
   position: absolute;
   border-radius: 50%;
-  background: #fff;
-  opacity: 0.8;
-  box-shadow: 0 0 6px 1px var(--nv-primary);
-  will-change: transform;
-  animation: twinkle 18s linear infinite;
+  background: linear-gradient(145deg, #0ff 6%, #fff 60%, #ff00ff 90%);
+  opacity: 0.77;
+  box-shadow:
+    0 0 8px 2px #0ff,
+    0 0 12px 6px #ff00ff44,
+    0 0 16px 9px #120121aa;
+  will-change: opacity, transform, filter;
+  animation: twinkle 17.3s linear infinite, star-glow 3.7s infinite both;
 }
 @keyframes twinkle {
-  0% { opacity: 0.35; transform: scale(1); }
-  25% { opacity: 1; }
-  50% { opacity: 0.7; transform: scale(1.18);}
-  100% { opacity: 0.35; transform: scale(1);}
+  0% { opacity: 0.36; transform: scale(1); filter: blur(0px);}
+  14% { opacity: 1; filter: blur(0.5px);}
+  22% { opacity: 0.66; }
+  49% { opacity: 1; filter: blur(1.2px);}
+  65% { opacity: 0.8; }
+  81% { opacity: 0.45; }
+  100% { opacity: 0.36; transform: scale(1);}
+}
+@keyframes star-glow {
+  0% { filter: drop-shadow(0 0 8px #0ff9) drop-shadow(0 0 16px #ff00ff66); }
+  50% { filter: drop-shadow(0 0 12px #0ff) drop-shadow(0 0 32px #ff00ffd0); }
+  100% { filter: drop-shadow(0 0 8px #0ff9) drop-shadow(0 0 16px #ff00ff66); }
+}
+
+/* Shooting star (used occasionally for cinemagraphic drama) */
+.shooting-star {
+  position: absolute;
+  width: 80px;
+  height: 2px;
+  background: linear-gradient(90deg, #fff, #0ffb 50%, #ff00ff22);
+  border-radius: 8px;
+  opacity: 0.82;
+  box-shadow: 0 0 12px #0ff8;
+  will-change: transform, opacity;
+  animation: shooting-star-anim 1s cubic-bezier(0.39,0.58,0.57,1) forwards;
+}
+@keyframes shooting-star-anim {
+  0% {
+    opacity: 0;
+    transform: translateY(0) translateX(0) scaleX(0.3) scaleY(0.5) rotate(-7deg);
+  }
+  7% { opacity: 1; }
+  85% {
+    opacity: 1;
+    transform: translateX(220px) scaleX(1) scaleY(1) rotate(-7deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(320px) scale(0.95, 1.1) rotate(-8deg);
+  }
 }
 
 /* --- Cinematic Navbar --- */
@@ -100,24 +184,71 @@ body {
   z-index: 2;
 }
 .nv-landing-content {
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  background: rgba(12,14,48,0.58);
-  border-radius: 30px;
-  padding: 56px 40px 32px 40px;
-  margin-top: 88px;
-  box-shadow: 0 0 80px #8500ff90, 0 1.5px 64px 0 var(--nv-primary);
-  max-width: 550px; width: 100%;
-  gap: 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(120deg, rgba(12,14,48,0.68) 63%, rgba(22,5,61,0.91) 100%);
+  border-radius: 38px;
+  padding: 64px 44px 36px 44px;
+  margin-top: 102px;
+  box-shadow:
+    0 0 99px #8500ffb9,
+    0 2.5px 68px 0 var(--nv-primary),
+    0 0 70px #0ff4 inset,
+    0 0 16px #ff00ffa0;
+  max-width: 590px;
+  width: 97%;
+  gap: 36px;
+  font-family: var(--nv-body-font), Inter, Arial, sans-serif;
+}
+
+.nv-landing-header {
+  text-align: center;
+  margin-bottom: 19px;
+}
+
+.nv-footer-note {
+  text-align: center;
+  margin-top: 28px;
+  color: var(--nv-primary);
+  font-size: 1.26rem;
+  font-family: var(--nv-heading-font), Orbitron, Arial, sans-serif;
+  opacity: 0.57;
+  text-shadow: 0 0 17px #0ffb, 0 0 7px #ff00ffaa;
+}
+
+.nv-glow-accent {
+  color: var(--nv-accent);
+  text-shadow: 0 0 11px #ff00ffd7, 0 0 4px #0ff, 0 0 2px #fff;
 }
 
 .nv-landing-header { text-align: center; margin-bottom: 18px;}
 .nv-title-glow {
-  font-family: 'Orbitron', 'Inter', 'Roboto', sans-serif;
-  font-size: 2.6rem; font-weight: 900; color: var(--nv-primary);
-  text-shadow: 0 0 24px #0ff, 0 0 20px #8500ff90;
-  margin-bottom: 10px; letter-spacing: 2.2px; filter: blur(0.0px);  
+  font-family: var(--nv-heading-font) !important;
+  font-size: 3.2rem;
+  font-weight: 800;
+  color: var(--nv-primary);
+  text-shadow:
+    0 0 32px #0ff,
+    0 0 18px #fff, 
+    0 0 16px #0ff,
+    0 0 18px #8500ff90,
+    0 0 16px #ff00ff80;
+  filter: blur(0.0px);
+  margin-bottom: 12px;
+  letter-spacing: 2.6px;
+  padding-top: 4px;
 }
-.nv-subtitle { font-size: 1.22rem; color: var(--text-secondary); max-width: 380px; margin: 0 auto; margin-bottom: 2px;}
+
+.nv-subtitle {
+  font-family: var(--nv-body-font), Inter, Arial, sans-serif;
+  font-size: 1.22rem;
+  color: var(--text-secondary);
+  max-width: 395px;
+  margin: 0 auto 2px auto;
+  text-shadow: 0 0 7px #120121a0, 0 0 2px var(--nv-accent);
+}
 
 /* --- Prompt Input --- */
 .prompt-input {
