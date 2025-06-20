@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import MirrorVerseApp from './MirrorVerseApp';
+import NeuroVerseRouterRoot from './NeuroVerseRouter';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <MirrorVerseApp />
+    <NeuroVerseRouterRoot />
   </React.StrictMode>
 );
